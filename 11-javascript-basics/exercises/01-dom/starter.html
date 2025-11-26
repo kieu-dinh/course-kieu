@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01 - DOM Manipulation Basics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .task {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        #demo-area {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 2px dashed #ddd;
+            min-height: 100px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .item {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item.highlight {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DOM Manipulation Exercise</h1>
+
+        <!-- Section 1: Element Selection -->
+        <div class="section">
+            <h2>Part 1: Element Selection</h2>
+
+            <div class="task">
+                <p><strong>Task 1:</strong> Select element by ID</p>
+                <p>TODO: Select the element with id="target-id" and display its text content</p>
+                <div id="target-id" style="color: #667eea; margin: 10px 0;">Find me by ID!</div>
+                <button onclick="TODO_selectById()">Select by ID</button>
+                <div id="result-1"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 2:</strong> Select element by class</p>
+                <p>TODO: Select all elements with class="highlight-me" and count them</p>
+                <div class="highlight-me" style="padding: 10px; background: #e8f4f8; margin: 5px 0;">Item 1</div>
+                <div class="highlight-me" style="padding: 10px; background: #e8f4f8; margin: 5px 0;">Item 2</div>
+                <div class="highlight-me" style="padding: 10px; background: #e8f4f8; margin: 5px 0;">Item 3</div>
+                <button onclick="TODO_selectByClass()">Count Elements</button>
+                <div id="result-2"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 3:</strong> Select using querySelector</p>
+                <p>TODO: Select the first div with data-type="special" and extract its data attribute</p>
+                <div data-type="special" data-value="123">Special Element</div>
+                <div data-type="normal">Normal Element</div>
+                <button onclick="TODO_useQuerySelector()">Get Data Attribute</button>
+                <div id="result-3"></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Modifying Elements -->
+        <div class="section">
+            <h2>Part 2: Modifying Elements</h2>
+
+            <div class="task">
+                <p><strong>Task 4:</strong> Change text content</p>
+                <p>TODO: Change the text of the element below to "Text has been changed!"</p>
+                <div id="change-text" style="padding: 10px; background: #f0f0f0; margin: 10px 0;">Original text</div>
+                <button onclick="TODO_changeText()">Change Text</button>
+                <div id="result-4"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 5:</strong> Change HTML content</p>
+                <p>TODO: Change the HTML to add a span with style inside the element</p>
+                <div id="change-html" style="padding: 10px; background: #f0f0f0; margin: 10px 0;">This will be replaced</div>
+                <button onclick="TODO_changeHTML()">Change HTML</button>
+                <div id="result-5"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 6:</strong> Modify attributes</p>
+                <p>TODO: Change the src attribute of the image or set a data attribute</p>
+                <input type="text" id="input-value" placeholder="Enter some text...">
+                <button onclick="TODO_setAttribute()">Set Attribute</button>
+                <div id="result-6"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 7:</strong> Toggle CSS classes</p>
+                <p>TODO: Toggle the "highlight" class on the element below</p>
+                <div id="toggle-class" style="padding: 15px; background: white; border: 2px solid #ddd; margin: 10px 0; transition: all 0.3s;">Toggle my class</div>
+                <button onclick="TODO_toggleClass()">Toggle Class</button>
+                <div id="result-7"></div>
+            </div>
+        </div>
+
+        <!-- Section 3: Creating Elements -->
+        <div class="section">
+            <h2>Part 3: Creating and Removing Elements</h2>
+
+            <div class="task">
+                <p><strong>Task 8:</strong> Create and append an element</p>
+                <p>TODO: Create a new div with the text "New Item" and add it to the demo area</p>
+                <div id="demo-area"></div>
+                <button onclick="TODO_createElement()">Add New Element</button>
+                <div id="result-8"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 9:</strong> Create multiple elements</p>
+                <p>TODO: Create a list of 5 items dynamically and add them to the list container</p>
+                <div id="list-container"></div>
+                <button onclick="TODO_createMultiple()">Create List</button>
+                <div id="result-9"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 10:</strong> Remove an element</p>
+                <p>TODO: Remove the first item from the list when the button is clicked</p>
+                <div id="removable-list">
+                    <div class="item">Item to remove <button onclick="TODO_removeElement(this)">Delete</button></div>
+                    <div class="item">Keep this <button onclick="TODO_removeElement(this)">Delete</button></div>
+                    <div class="item">And this <button onclick="TODO_removeElement(this)">Delete</button></div>
+                </div>
+                <div id="result-10"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Part 1: Element Selection
+        // TODO: Implement selectById function
+        function TODO_selectById() {
+            console.log("TODO: Select element by ID and show its text");
+            // Hint: Use document.getElementById()
+            // Hint: Display result in #result-1
+        }
+
+        // TODO: Implement selectByClass function
+        function TODO_selectByClass() {
+            console.log("TODO: Select all elements by class and count them");
+            // Hint: Use document.querySelectorAll()
+            // Hint: Display count in #result-2
+        }
+
+        // TODO: Implement useQuerySelector function
+        function TODO_useQuerySelector() {
+            console.log("TODO: Use querySelector and get data attribute");
+            // Hint: Use querySelector with CSS selector
+            // Hint: Access data attribute using dataset or getAttribute()
+            // Hint: Display result in #result-3
+        }
+
+        // Part 2: Modifying Elements
+        // TODO: Implement changeText function
+        function TODO_changeText() {
+            console.log("TODO: Change element text content");
+            // Hint: Use textContent property
+            // Hint: Display success message in #result-4
+        }
+
+        // TODO: Implement changeHTML function
+        function TODO_changeHTML() {
+            console.log("TODO: Change element HTML content");
+            // Hint: Use innerHTML property
+            // Hint: Create HTML with a span element
+            // Hint: Display success message in #result-5
+        }
+
+        // TODO: Implement setAttribute function
+        function TODO_setAttribute() {
+            console.log("TODO: Set element attribute");
+            // Hint: Use setAttribute() or direct property assignment
+            // Hint: Get value from input#input-value
+            // Hint: Display success message in #result-6
+        }
+
+        // TODO: Implement toggleClass function
+        function TODO_toggleClass() {
+            console.log("TODO: Toggle CSS class");
+            // Hint: Use classList.add(), classList.remove(), or classList.toggle()
+            // Hint: Toggle the "highlight" class on #toggle-class
+            // Hint: Display success message in #result-7
+        }
+
+        // Part 3: Creating Elements
+        // TODO: Implement createElement function
+        function TODO_createElement() {
+            console.log("TODO: Create and append new element");
+            // Hint: Use document.createElement()
+            // Hint: Set textContent
+            // Hint: Use appendChild() to add to #demo-area
+            // Hint: Display success message in #result-8
+        }
+
+        // TODO: Implement createMultiple function
+        function TODO_createMultiple() {
+            console.log("TODO: Create multiple elements");
+            // Hint: Use a loop to create 5 items
+            // Hint: Each item should be a div with class="item"
+            // Hint: Append to #list-container
+            // Hint: Display success message in #result-9
+        }
+
+        // TODO: Implement removeElement function
+        function TODO_removeElement(buttonElement) {
+            console.log("TODO: Remove element");
+            // Hint: Get the parent element of the button
+            // Hint: Use remove() or removeChild()
+            // Hint: Optional: Display message in #result-10
+        }
+
+        // CSS for highlighting
+        const style = document.createElement('style');
+        style.textContent = `
+            #toggle-class.highlight {
+                background: #fff3cd !important;
+                border-color: #ffc107 !important;
+                color: #856404;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

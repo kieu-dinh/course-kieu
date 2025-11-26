@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 04 - Infinite Scroll</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info-box {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .post-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .post-item h3 { color: #667eea; margin-bottom: 10px; }
+        .post-item p { color: #666; line-height: 1.5; }
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-weight: bold;
+            display: none;
+        }
+        .spinner {
+            display: inline-block;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #scroll-sentinel {
+            text-align: center;
+            padding: 20px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Infinite Scroll</h1>
+    <div class="container">
+        <div class="info-box">
+            <strong>TODO:</strong> Implement infinite scroll to load more posts as user scrolls
+        </div>
+        <div id="posts-container"></div>
+        <div class="loading" id="loading">
+            <span class="spinner"></span>Loading more posts...
+        </div>
+        <div id="scroll-sentinel">End of posts</div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://jsonplaceholder.typicode.com';
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+
+        // TODO: Implement loadMorePosts
+        async function TODO_loadMorePosts() {
+            console.log("TODO: Load more posts on scroll");
+            // Hint: Check if already loading and hasMore
+            // Hint: Show loading state
+            // Hint: Fetch posts for current page
+            // Hint: Append to container
+            // Hint: Increment page
+            // Hint: Hide loading
+        }
+
+        // TODO: Setup Intersection Observer
+        function TODO_setupIntersectionObserver() {
+            console.log("TODO: Setup intersection observer");
+            // Hint: Create observer watching scroll-sentinel
+            // Hint: When visible, load more posts
+            // Hint: Start observing sentinel
+        }
+
+        // Initial load
+        window.addEventListener('DOMContentLoaded', TODO_loadMorePosts);
+        window.addEventListener('DOMContentLoaded', TODO_setupIntersectionObserver);
+    </script>
+</body>
+</html>

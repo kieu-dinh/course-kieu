@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 05 - Modal Component</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            margin: 5px 5px 5px 0;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        button.danger {
+            background: #dc3545;
+        }
+
+        button.danger:hover {
+            background: #c82333;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-overlay.fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+            z-index: 1001;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+            margin: 0;
+        }
+
+        .modal-close:hover {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 20px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .nested-modal-note {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .confirmation-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .confirmation-message .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Modal Component with Alpine.js</h1>
+
+        <!-- Part 1: Basic Modal -->
+        <div class="card">
+            <h2>Part 1: Basic Modal</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create a basic modal with open and close functionality
+            </div>
+
+            <div x-data="TODO_basicModal()">
+                <button @click="openModal()">Open Modal</button>
+
+                <!-- Modal -->
+                <div class="modal-overlay" :class="{ active: isOpen }" @click.outside="closeModal()">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Welcome!</h2>
+                            <button class="modal-close" @click="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This is a basic modal. Click the X button, the Close button, or click outside to close.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="secondary" @click="closeModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 2: Modal with Form -->
+        <div class="card">
+            <h2>Part 2: Modal with Form</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create a modal that collects form input
+            </div>
+
+            <div x-data="TODO_formModal()">
+                <button @click="openModal()">Open Form Modal</button>
+
+                <div class="success-message" :class="{ show: showSuccess }">
+                    Form submitted successfully!
+                </div>
+
+                <!-- Modal -->
+                <div class="modal-overlay" :class="{ active: isOpen }" @click.outside="closeModal()" @keydown.escape="closeModal()">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>User Information</h2>
+                            <button class="modal-close" @click="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm()">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" x-model="form.name" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" x-model="form.email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message:</label>
+                                    <textarea id="message" x-model="form.message" placeholder="Enter your message" rows="3" required></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="secondary" @click="closeModal()">Cancel</button>
+                            <button @click="submitForm()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 3: Confirmation Modal -->
+        <div class="card">
+            <h2>Part 3: Confirmation Modal</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create a confirmation modal for destructive actions
+            </div>
+
+            <div x-data="TODO_confirmationModal()">
+                <button class="danger" @click="showDeleteConfirm()">Delete Account</button>
+
+                <div class="success-message" :class="{ show: confirmResult }">
+                    Action confirmed! (In real app, this would delete data)
+                </div>
+
+                <!-- Confirmation Modal -->
+                <div class="modal-overlay" :class="{ active: isOpen }" @click.outside="cancelAction()">
+                    <div class="modal-content">
+                        <div class="modal-body confirmation-message">
+                            <div class="icon">⚠️</div>
+                            <h2 style="color: #dc3545;">Are you sure?</h2>
+                            <p style="margin: 15px 0;">This action cannot be undone. Please confirm.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="secondary" @click="cancelAction()">Cancel</button>
+                            <button class="danger" @click="confirmAction()">Yes, Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 4: Multiple Modals -->
+        <div class="card">
+            <h2>Part 4: Multiple Independent Modals</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create multiple independent modal instances
+            </div>
+
+            <div x-data="TODO_multipleModals()">
+                <div class="demo-grid">
+                    <template x-for="(modal, index) in modals" :key="index">
+                        <button @click="openModal(index)" x-text="modal.label"></button>
+                    </template>
+                </div>
+
+                <!-- Modals -->
+                <template x-for="(modal, index) in modals" :key="index">
+                    <div class="modal-overlay" :class="{ active: openModals[index] }" @click.outside="closeModal(index)">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 x-text="modal.label"></h2>
+                                <button class="modal-close" @click="closeModal(index)">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <p x-text="modal.content"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="secondary" @click="closeModal(index)">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Part 5: Nested Modals -->
+        <div class="card">
+            <h2>Part 5: Nested Modals (Stacked)</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create nested modals where one modal can open another
+            </div>
+
+            <div x-data="TODO_nestedModals()">
+                <button @click="openModal1()">Open First Modal</button>
+
+                <!-- First Modal -->
+                <div class="modal-overlay" :class="{ active: modal1Open }" @click.outside="closeModal1()">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>First Modal</h2>
+                            <button class="modal-close" @click="closeModal1()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This is the first modal. Click the button below to open a nested modal.</p>
+                            <div class="nested-modal-note">
+                                When you open the nested modal, this modal will stay open in the background.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="openModal2()">Open Nested Modal →</button>
+                            <button class="secondary" @click="closeModal1()">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second (Nested) Modal -->
+                <div class="modal-overlay" :class="{ active: modal2Open }" @click.outside="closeModal2()" style="z-index: 1002;">
+                    <div class="modal-content" style="z-index: 1003;">
+                        <div class="modal-header">
+                            <h2>Nested Modal</h2>
+                            <button class="modal-close" @click="closeModal2()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This is a nested modal that opened from the first modal.</p>
+                            <p>You can close this modal and return to the first one, or close both.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="closeModal2()">← Go Back</button>
+                            <button class="secondary" @click="closeAllModals()">Close All</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 6: Modal with Keyboard Handling -->
+        <div class="card">
+            <h2>Part 6: Keyboard Navigation</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Add keyboard support (Escape to close, Tab to focus elements)
+            </div>
+
+            <div x-data="TODO_keyboardModal()" @keydown.escape.window="closeModal()">
+                <button @click="openModal()">Open Keyboard-Aware Modal</button>
+
+                <p style="color: #666; margin-top: 10px; font-size: 0.9em;">Tip: Press ESC key to close the modal</p>
+
+                <!-- Modal -->
+                <div class="modal-overlay" :class="{ active: isOpen }" @click.outside="closeModal()">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Keyboard Navigation</h2>
+                            <button class="modal-close" @click="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>This modal supports keyboard navigation:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Press <kbd>ESC</kbd> to close</li>
+                                <li>Use <kbd>TAB</kbd> to navigate buttons</li>
+                                <li>Press <kbd>ENTER</kbd> to click focused button</li>
+                            </ul>
+                            <input type="text" placeholder="Try tabbing through fields" style="margin-top: 15px;">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="secondary" @click="closeModal()">Cancel</button>
+                            <button @click="submitModal()">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Part 1: Basic Modal
+        function TODO_basicModal() {
+            return {
+                isOpen: false,
+
+                // TODO: Implement openModal
+                openModal() {
+                    console.log("TODO: Open modal");
+                    // Hint: Set isOpen to true
+                    // Hint: Prevent body scroll
+                },
+
+                // TODO: Implement closeModal
+                closeModal() {
+                    console.log("TODO: Close modal");
+                    // Hint: Set isOpen to false
+                    // Hint: Restore body scroll
+                }
+            };
+        }
+
+        // Part 2: Modal with Form
+        function TODO_formModal() {
+            return {
+                isOpen: false,
+                showSuccess: false,
+                form: {
+                    name: '',
+                    email: '',
+                    message: ''
+                },
+
+                // TODO: Implement openModal
+                openModal() {
+                    console.log("TODO: Open form modal");
+                    // Hint: Set isOpen to true
+                },
+
+                // TODO: Implement closeModal
+                closeModal() {
+                    console.log("TODO: Close form modal");
+                    // Hint: Set isOpen to false
+                    // Hint: Reset form
+                },
+
+                // TODO: Implement submitForm
+                submitForm() {
+                    console.log("TODO: Submit form");
+                    // Hint: Validate form data
+                    // Hint: Show success message
+                    // Hint: Close modal after delay
+                }
+            };
+        }
+
+        // Part 3: Confirmation Modal
+        function TODO_confirmationModal() {
+            return {
+                isOpen: false,
+                confirmResult: false,
+
+                // TODO: Implement showDeleteConfirm
+                showDeleteConfirm() {
+                    console.log("TODO: Show delete confirmation");
+                    // Hint: Set isOpen to true
+                },
+
+                // TODO: Implement confirmAction
+                confirmAction() {
+                    console.log("TODO: Confirm action");
+                    // Hint: Set confirmResult to true
+                    // Hint: Close modal
+                    // Hint: Hide success message after delay
+                },
+
+                // TODO: Implement cancelAction
+                cancelAction() {
+                    console.log("TODO: Cancel action");
+                    // Hint: Set isOpen to false
+                }
+            };
+        }
+
+        // Part 4: Multiple Modals
+        function TODO_multipleModals() {
+            return {
+                openModals: [false, false, false],
+                modals: [
+                    { label: 'About', content: 'Learn more about our service...' },
+                    { label: 'Contact', content: 'Get in touch with us...' },
+                    { label: 'Help', content: 'Browse help articles and FAQs...' }
+                ],
+
+                // TODO: Implement openModal
+                openModal(index) {
+                    console.log("TODO: Open modal at index:", index);
+                    // Hint: Set openModals[index] to true
+                },
+
+                // TODO: Implement closeModal
+                closeModal(index) {
+                    console.log("TODO: Close modal at index:", index);
+                    // Hint: Set openModals[index] to false
+                }
+            };
+        }
+
+        // Part 5: Nested Modals
+        function TODO_nestedModals() {
+            return {
+                modal1Open: false,
+                modal2Open: false,
+
+                // TODO: Implement modal 1 methods
+                openModal1() {
+                    console.log("TODO: Open first modal");
+                    // Hint: Set modal1Open to true
+                },
+
+                closeModal1() {
+                    console.log("TODO: Close first modal");
+                    // Hint: Set modal1Open to false
+                    // Hint: Close modal2 as well if open
+                },
+
+                // TODO: Implement modal 2 methods
+                openModal2() {
+                    console.log("TODO: Open second modal");
+                    // Hint: Set modal2Open to true
+                },
+
+                closeModal2() {
+                    console.log("TODO: Close second modal");
+                    // Hint: Set modal2Open to false
+                },
+
+                // TODO: Implement closeAllModals
+                closeAllModals() {
+                    console.log("TODO: Close all modals");
+                    // Hint: Set both modal1Open and modal2Open to false
+                }
+            };
+        }
+
+        // Part 6: Keyboard Modal
+        function TODO_keyboardModal() {
+            return {
+                isOpen: false,
+
+                // TODO: Implement openModal
+                openModal() {
+                    console.log("TODO: Open keyboard-aware modal");
+                    // Hint: Set isOpen to true
+                },
+
+                // TODO: Implement closeModal
+                closeModal() {
+                    console.log("TODO: Close modal");
+                    // Hint: Set isOpen to false
+                },
+
+                // TODO: Implement submitModal
+                submitModal() {
+                    console.log("TODO: Submit modal action");
+                    // Hint: Show confirmation
+                    // Hint: Close modal
+                }
+            };
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 03 - Form Validation with Alpine.js</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input.invalid, textarea.invalid {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        input.valid {
+            border-color: #28a745;
+            background: #f5fff5;
+        }
+
+        .form-hint {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .form-error {
+            font-size: 0.9em;
+            color: #dc3545;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-success {
+            font-size: 0.9em;
+            color: #28a745;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .strength-meter {
+            height: 5px;
+            background: #ddd;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            background: #dc3545;
+        }
+
+        .strength-bar.weak {
+            width: 33%;
+            background: #dc3545;
+        }
+
+        .strength-bar.medium {
+            width: 66%;
+            background: #ffc107;
+        }
+
+        .strength-bar.strong {
+            width: 100%;
+            background: #28a745;
+        }
+
+        .strength-text {
+            font-size: 0.85em;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .error-summary {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-summary.show {
+            display: block;
+        }
+
+        .error-list {
+            list-style-position: inside;
+            margin-top: 10px;
+        }
+
+        .error-list li {
+            margin: 5px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Form Validation with Alpine.js</h1>
+
+        <!-- Part 1: Basic Form Validation -->
+        <div class="form-section">
+            <h2>Part 1: Basic Field Validation</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Implement real-time validation for email and username fields
+            </div>
+
+            <div x-data="TODO_basicValidation()">
+                <form @submit.prevent="submitForm()">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            x-model="form.username"
+                            @input="validateUsername()"
+                            :class="{ valid: validations.username === true, invalid: validations.username === false }"
+                            placeholder="3-20 characters"
+                        >
+                        <div class="form-hint">3-20 characters, letters and numbers only</div>
+                        <div class="form-error" :class="{ show: validations.username === false }">
+                            Username must be 3-20 characters
+                        </div>
+                        <div class="form-success" :class="{ show: validations.username === true }">
+                            ✓ Valid username
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            x-model="form.email"
+                            @input="validateEmail()"
+                            :class="{ valid: validations.email === true, invalid: validations.email === false }"
+                            placeholder="user@example.com"
+                        >
+                        <div class="form-hint">Must be a valid email address</div>
+                        <div class="form-error" :class="{ show: validations.email === false }">
+                            Please enter a valid email address
+                        </div>
+                        <div class="form-success" :class="{ show: validations.email === true }">
+                            ✓ Valid email
+                        </div>
+                    </div>
+
+                    <button type="submit" :disabled="!isBasicFormValid()">Submit Basic Form</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Part 2: Password Validation -->
+        <div class="form-section">
+            <h2>Part 2: Password & Confirmation Validation</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Validate password strength and match confirmation
+            </div>
+
+            <div x-data="TODO_passwordValidation()">
+                <form @submit.prevent="submitForm()">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            x-model="form.password"
+                            @input="validatePassword()"
+                            :class="{ valid: validations.password === true, invalid: validations.password === false }"
+                            placeholder="Min 8 chars, 1 upper, 1 number, 1 special"
+                        >
+                        <div class="form-hint">
+                            Requires: 8+ characters, 1 uppercase, 1 number, 1 special (!@#$%^&*)
+                        </div>
+                        <div class="strength-meter">
+                            <div class="strength-bar" :class="passwordStrength"></div>
+                        </div>
+                        <div class="strength-text" x-text="'Strength: ' + passwordStrengthText"></div>
+                        <div class="form-error" :class="{ show: validations.password === false }">
+                            Password does not meet requirements
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="confirm"
+                            x-model="form.confirm"
+                            @input="validateConfirm()"
+                            :class="{ valid: validations.confirm === true, invalid: validations.confirm === false }"
+                            placeholder="Re-enter password"
+                        >
+                        <div class="form-error" :class="{ show: validations.confirm === false }">
+                            Passwords do not match
+                        </div>
+                        <div class="form-success" :class="{ show: validations.confirm === true }">
+                            ✓ Passwords match
+                        </div>
+                    </div>
+
+                    <button type="submit" :disabled="!isPasswordFormValid()">Submit Password Form</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Part 3: Complete Registration Form -->
+        <div class="form-section">
+            <h2>Part 3: Complete Registration Form</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Validate complete registration form with error summary
+            </div>
+
+            <div x-data="TODO_registrationForm()">
+                <div id="success-message" class="success-message" :class="{ show: showSuccess }">
+                    <h3>Success!</h3>
+                    <p>Registration completed successfully!</p>
+                </div>
+
+                <div id="error-summary" class="error-summary" :class="{ show: showErrorSummary }">
+                    <h3>Please fix the following errors:</h3>
+                    <ul class="error-list" id="error-list">
+                        <template x-for="error in errors" :key="error">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <form @submit.prevent="submitForm()">
+                    <div class="form-group">
+                        <label for="reg-username">Username</label>
+                        <input
+                            type="text"
+                            id="reg-username"
+                            x-model="form.username"
+                            @input="validateForm()"
+                            :class="{ valid: validations.username === true, invalid: validations.username === false }"
+                        >
+                        <div class="form-error" :class="{ show: validations.username === false }">
+                            Username is invalid
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-email">Email</label>
+                        <input
+                            type="email"
+                            id="reg-email"
+                            x-model="form.email"
+                            @input="validateForm()"
+                            :class="{ valid: validations.email === true, invalid: validations.email === false }"
+                        >
+                        <div class="form-error" :class="{ show: validations.email === false }">
+                            Email is invalid
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input
+                            type="password"
+                            id="reg-password"
+                            x-model="form.password"
+                            @input="validateForm()"
+                            :class="{ valid: validations.password === true, invalid: validations.password === false }"
+                        >
+                        <div class="strength-meter">
+                            <div class="strength-bar" :class="passwordStrength"></div>
+                        </div>
+                        <div class="strength-text" x-text="'Strength: ' + passwordStrengthText"></div>
+                        <div class="form-error" :class="{ show: validations.password === false }">
+                            Password does not meet requirements
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-confirm">Confirm Password</label>
+                        <input
+                            type="password"
+                            id="reg-confirm"
+                            x-model="form.confirm"
+                            @input="validateForm()"
+                            :class="{ valid: validations.confirm === true, invalid: validations.confirm === false }"
+                        >
+                        <div class="form-error" :class="{ show: validations.confirm === false }">
+                            Passwords do not match
+                        </div>
+                    </div>
+
+                    <button type="submit" :disabled="!isFormValid()">Register</button>
+                    <button type="reset" style="background: #6c757d;">Clear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Regex patterns
+        const patterns = {
+            username: /^[a-zA-Z0-9_]{3,20}$/,
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            password: /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+        };
+
+        // Part 1: Basic Validation
+        function TODO_basicValidation() {
+            return {
+                form: {
+                    username: '',
+                    email: ''
+                },
+                validations: {
+                    username: null,
+                    email: null
+                },
+
+                // TODO: Validate username
+                validateUsername() {
+                    console.log("TODO: Validate username");
+                    // Hint: Check if matches pattern
+                    // Hint: Set validations.username to true/false
+                },
+
+                // TODO: Validate email
+                validateEmail() {
+                    console.log("TODO: Validate email");
+                    // Hint: Check if matches pattern
+                    // Hint: Set validations.email to true/false
+                },
+
+                // TODO: Check if form is valid
+                isBasicFormValid() {
+                    console.log("TODO: Check basic form validity");
+                    // Hint: Return true if both username and email are valid
+                },
+
+                // TODO: Submit form
+                submitForm() {
+                    console.log("TODO: Submit basic form");
+                    // Hint: Show success message
+                    // Hint: Reset form after 2 seconds
+                }
+            };
+        }
+
+        // Part 2: Password Validation
+        function TODO_passwordValidation() {
+            return {
+                form: {
+                    password: '',
+                    confirm: ''
+                },
+                validations: {
+                    password: null,
+                    confirm: null
+                },
+
+                // TODO: Get password strength
+                get passwordStrength() {
+                    console.log("TODO: Calculate password strength");
+                    // Hint: Return 'weak', 'medium', or 'strong'
+                    // Hint: weak: < 8 chars or missing requirements
+                    // Hint: medium: 8+ chars, some requirements
+                    // Hint: strong: all requirements met
+                },
+
+                // TODO: Get password strength text
+                get passwordStrengthText() {
+                    console.log("TODO: Get password strength text");
+                    // Hint: Return 'Weak', 'Medium', or 'Strong'
+                },
+
+                // TODO: Validate password
+                validatePassword() {
+                    console.log("TODO: Validate password");
+                    // Hint: Check if matches pattern
+                    // Hint: Set validations.password to true/false
+                },
+
+                // TODO: Validate confirm
+                validateConfirm() {
+                    console.log("TODO: Validate password match");
+                    // Hint: Check if password === confirm
+                    // Hint: Set validations.confirm to true/false
+                },
+
+                // TODO: Check if form is valid
+                isPasswordFormValid() {
+                    console.log("TODO: Check password form validity");
+                    // Hint: Return true if password and confirm are valid
+                },
+
+                // TODO: Submit form
+                submitForm() {
+                    console.log("TODO: Submit password form");
+                    // Hint: Show success message
+                    // Hint: Reset form
+                }
+            };
+        }
+
+        // Part 3: Complete Registration Form
+        function TODO_registrationForm() {
+            return {
+                form: {
+                    username: '',
+                    email: '',
+                    password: '',
+                    confirm: ''
+                },
+                validations: {
+                    username: null,
+                    email: null,
+                    password: null,
+                    confirm: null
+                },
+                errors: [],
+                showSuccess: false,
+                showErrorSummary: false,
+
+                // TODO: Get password strength
+                get passwordStrength() {
+                    // Similar to Part 2
+                },
+
+                // TODO: Get password strength text
+                get passwordStrengthText() {
+                    // Similar to Part 2
+                },
+
+                // TODO: Validate all fields
+                validateForm() {
+                    console.log("TODO: Validate all fields");
+                    // Hint: Validate username, email, password, confirm
+                    // Hint: Update validations object for each
+                },
+
+                // TODO: Collect all errors
+                collectErrors() {
+                    console.log("TODO: Collect validation errors");
+                    // Hint: Create array of error messages
+                    // Hint: Return array of strings describing each error
+                },
+
+                // TODO: Check if form is valid
+                isFormValid() {
+                    console.log("TODO: Check complete form validity");
+                    // Hint: Return true if all fields are valid
+                },
+
+                // TODO: Submit form
+                submitForm() {
+                    console.log("TODO: Submit registration form");
+                    // Hint: If form is valid, show success message
+                    // Hint: If form is invalid, collect and show errors
+                    // Hint: Reset form after success
+                }
+            };
+        }
+    </script>
+</body>
+</html>

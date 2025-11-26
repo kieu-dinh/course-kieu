@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02 - POST Data to API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            display: none;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            display: inline-block;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .response-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .response-box.show {
+            display: block;
+        }
+
+        .response-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .response-json {
+            background: white;
+            padding: 15px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>POST Data to API</h1>
+
+        <div class="info-box">
+            <strong>TODO:</strong> Create forms to POST data and handle server responses
+        </div>
+
+        <!-- Form 1: Create Post -->
+        <h2>Part 1: Create Blog Post</h2>
+
+        <form id="post-form" onsubmit="TODO_createPost(event)">
+            <div class="form-group">
+                <label for="post-title">Post Title</label>
+                <input type="text" id="post-title" required placeholder="Enter post title">
+            </div>
+
+            <div class="form-group">
+                <label for="post-body">Post Body</label>
+                <textarea id="post-body" required placeholder="Enter post content"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="post-user">User ID</label>
+                <input type="number" id="post-user" value="1" min="1" max="10" required>
+            </div>
+
+            <button type="submit" id="post-submit">Create Post</button>
+        </form>
+
+        <div class="loading" id="post-loading">
+            <span class="spinner"></span>Sending data...
+        </div>
+
+        <div class="success" id="post-success">
+            Post created successfully!
+        </div>
+
+        <div class="error" id="post-error"></div>
+
+        <div class="response-box" id="post-response">
+            <h3>Server Response</h3>
+            <div class="response-json" id="post-response-json"></div>
+        </div>
+
+        <!-- Form 2: Create Comment -->
+        <h2>Part 2: Create Comment</h2>
+
+        <form id="comment-form" onsubmit="TODO_createComment(event)">
+            <div class="form-group">
+                <label for="comment-name">Your Name</label>
+                <input type="text" id="comment-name" required placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label for="comment-email">Your Email</label>
+                <input type="email" id="comment-email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="comment-body">Comment</label>
+                <textarea id="comment-body" required placeholder="Enter your comment"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="comment-post">Post ID</label>
+                <input type="number" id="comment-post" value="1" min="1" max="100" required>
+            </div>
+
+            <button type="submit" id="comment-submit">Post Comment</button>
+        </form>
+
+        <div class="loading" id="comment-loading">
+            <span class="spinner"></span>Sending comment...
+        </div>
+
+        <div class="success" id="comment-success">
+            Comment posted successfully!
+        </div>
+
+        <div class="error" id="comment-error"></div>
+
+        <div class="response-box" id="comment-response">
+            <h3>Server Response</h3>
+            <div class="response-json" id="comment-response-json"></div>
+        </div>
+
+        <!-- Form 3: Create User -->
+        <h2>Part 3: Create User Account</h2>
+
+        <form id="user-form" onsubmit="TODO_createUser(event)">
+            <div class="form-group">
+                <label for="user-name">Username</label>
+                <input type="text" id="user-name" required placeholder="Enter username">
+            </div>
+
+            <div class="form-group">
+                <label for="user-email">Email</label>
+                <input type="email" id="user-email" required placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+                <label for="user-company">Company</label>
+                <input type="text" id="user-company" placeholder="Enter company name">
+            </div>
+
+            <button type="submit" id="user-submit">Create Account</button>
+        </form>
+
+        <div class="loading" id="user-loading">
+            <span class="spinner"></span>Creating user...
+        </div>
+
+        <div class="success" id="user-success">
+            User account created successfully!
+        </div>
+
+        <div class="error" id="user-error"></div>
+
+        <div class="response-box" id="user-response">
+            <h3>Server Response</h3>
+            <div class="response-json" id="user-response-json"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://jsonplaceholder.typicode.com';
+
+        // TODO: Implement createPost
+        async function TODO_createPost(event) {
+            console.log("TODO: POST new post");
+            // Hint: event.preventDefault()
+            // Hint: Get form values from inputs
+            // Hint: Show loading state
+            // Hint: Fetch with method: 'POST', headers, and body (JSON)
+            // Hint: Handle response and display
+            // Hint: Show success/error messages
+        }
+
+        // TODO: Implement createComment
+        async function TODO_createComment(event) {
+            console.log("TODO: POST new comment");
+            // Similar to createPost
+        }
+
+        // TODO: Implement createUser
+        async function TODO_createUser(event) {
+            console.log("TODO: POST new user");
+            // Similar to createPost
+        }
+
+        // TODO: Implement showLoading
+        function TODO_showLoading(id) {
+            console.log("TODO: Show loading for:", id);
+            // Hint: Show #id-loading
+            // Hint: Hide #id-success and #id-error
+            // Hint: Hide response box
+        }
+
+        // TODO: Implement showSuccess
+        function TODO_showSuccess(id, response) {
+            console.log("TODO: Show success for:", id);
+            // Hint: Hide loading
+            // Hint: Show #id-success
+            // Hint: Show response box
+            // Hint: Display JSON response
+            // Hint: Reset form
+        }
+
+        // TODO: Implement showError
+        function TODO_showError(id, message) {
+            console.log("TODO: Show error for:", id);
+            // Hint: Hide loading
+            // Hint: Show #id-error with message
+            // Hint: Hide success and response
+        }
+
+        // Helper: Display JSON
+        function TODO_displayJSON(elementId, data) {
+            console.log("TODO: Display JSON");
+            // Hint: Prettify and display JSON in #elementId
+        }
+    </script>
+</body>
+</html>

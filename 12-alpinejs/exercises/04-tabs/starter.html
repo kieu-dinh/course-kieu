@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 04 - Tabs Component</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tabs-container {
+            margin-bottom: 20px;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 0;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab-button:hover {
+            color: #667eea;
+            background: #f5f5f5;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tabs-content {
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 0 0 10px 10px;
+            min-height: 200px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-pane h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .tab-pane p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        .icon {
+            margin-right: 8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-box {
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+            font-family: monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+
+        .breadcrumb {
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #667eea;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tabs Component with Alpine.js</h1>
+
+        <!-- Part 1: Basic Tabs -->
+        <div class="card">
+            <h2>Part 1: Basic Tabs</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create basic tabs with content switching on click
+            </div>
+
+            <div x-data="TODO_basicTabs()">
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                                x-text="tab.label"
+                            ></button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <h3 x-text="tab.label"></h3>
+                                <p x-text="tab.content"></p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 2: Tabs with Icons & Badges -->
+        <div class="card">
+            <h2>Part 2: Tabs with Icons and Badges</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Enhance tabs with icons and badge indicators
+            </div>
+
+            <div x-data="TODO_tabsWithBadges()">
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                            >
+                                <span class="icon" x-text="tab.icon"></span>
+                                <span x-text="tab.label"></span>
+                                <span class="badge" x-show="tab.badge" x-text="tab.badge"></span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <h3 x-text="tab.label"></h3>
+                                <div x-html="tab.content"></div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 3: Tabs with Keyboard Navigation -->
+        <div class="card">
+            <h2>Part 3: Keyboard Navigation</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Add arrow key navigation (left/right arrows) between tabs
+            </div>
+
+            <div x-data="TODO_keyboardTabs()" @keydown.window.arrow-left="previousTab()" @keydown.window.arrow-right="nextTab()">
+                <div class="breadcrumb">
+                    <p>Tip: Use arrow keys to navigate between tabs</p>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                                :tabindex="activeTab === index ? 0 : -1"
+                                x-text="tab.label"
+                            ></button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <h3 x-text="tab.label"></h3>
+                                <p x-text="tab.content"></p>
+                                <div class="breadcrumb">
+                                    <small x-text="'Tab ' + (activeTab + 1) + ' of ' + tabs.length"></small>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 4: Lazy Loading Tabs -->
+        <div class="card">
+            <h2>Part 4: Lazy Loading Content</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Load tab content on-demand when tab is clicked
+            </div>
+
+            <div x-data="TODO_lazyLoadTabs()">
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                                x-text="tab.label"
+                            >
+                                <span x-show="tab.loading" style="margin-left: 8px;">
+                                    <span style="animation: spin 1s linear infinite;">⟳</span>
+                                </span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <div x-show="tab.loading" style="text-align: center; padding: 40px;">
+                                    <p>Loading content...</p>
+                                </div>
+                                <div x-show="!tab.loading">
+                                    <h3 x-text="tab.label"></h3>
+                                    <p x-text="tab.content"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 5: Nested/Dynamic Tabs -->
+        <div class="card">
+            <h2>Part 5: Dynamic Tab Management</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Add ability to dynamically add and remove tabs
+            </div>
+
+            <div x-data="TODO_dynamicTabs()">
+                <div style="margin-bottom: 20px;">
+                    <button @click="addTab()">+ Add New Tab</button>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                                x-text="tab.label"
+                            ></button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <h3 x-text="tab.label"></h3>
+                                <p x-text="tab.content"></p>
+                                <button style="background: #dc3545; margin-top: 15px;" @click="removeTab(index)">
+                                    Remove This Tab
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 6: Persistent Tabs (localStorage) -->
+        <div class="card">
+            <h2>Part 6: Remember Selected Tab</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Save and restore the active tab using localStorage
+            </div>
+
+            <div x-data="TODO_persistentTabs()" @load="loadState()">
+                <div class="tabs-container">
+                    <div class="tabs-header">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <button
+                                class="tab-button"
+                                :class="{ active: activeTab === index }"
+                                @click="setActiveTab(index)"
+                                x-text="tab.label"
+                            ></button>
+                        </template>
+                    </div>
+
+                    <div class="tabs-content">
+                        <template x-for="(tab, index) in tabs" :key="index">
+                            <div class="tab-pane" :class="{ active: activeTab === index }">
+                                <h3 x-text="tab.label"></h3>
+                                <p x-text="tab.content"></p>
+                                <p style="color: #999; font-size: 0.9em; margin-top: 15px;">
+                                    (Refresh the page - your selected tab will be remembered)
+                                </p>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Part 1: Basic Tabs
+        function TODO_basicTabs() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    {
+                        label: 'Overview',
+                        content: 'This is the overview tab content. It provides a general introduction to the topic.'
+                    },
+                    {
+                        label: 'Features',
+                        content: 'Features tab content goes here. List all the main features of your product or service.'
+                    },
+                    {
+                        label: 'Pricing',
+                        content: 'Pricing information and plans are displayed in this tab.'
+                    }
+                ],
+
+                // TODO: Implement setActiveTab
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab to index:", index);
+                    // Hint: Update activeTab to index
+                }
+            };
+        }
+
+        // Part 2: Tabs with Icons & Badges
+        function TODO_tabsWithBadges() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    {
+                        label: 'Messages',
+                        icon: '💬',
+                        badge: '5',
+                        content: '<p>You have 5 new messages waiting for you.</p>'
+                    },
+                    {
+                        label: 'Notifications',
+                        icon: '🔔',
+                        badge: '12',
+                        content: '<p>Check your 12 notifications.</p>'
+                    },
+                    {
+                        label: 'Settings',
+                        icon: '⚙️',
+                        badge: null,
+                        content: '<p>Configure your preferences and settings.</p>'
+                    }
+                ],
+
+                // TODO: Implement setActiveTab
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab to index:", index);
+                    // Hint: Update activeTab to index
+                }
+            };
+        }
+
+        // Part 3: Keyboard Navigation
+        function TODO_keyboardTabs() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    { label: 'Tab 1', content: 'Content 1' },
+                    { label: 'Tab 2', content: 'Content 2' },
+                    { label: 'Tab 3', content: 'Content 3' },
+                    { label: 'Tab 4', content: 'Content 4' }
+                ],
+
+                // TODO: Implement setActiveTab
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab to index:", index);
+                    // Hint: Update activeTab to index
+                },
+
+                // TODO: Implement previousTab
+                previousTab() {
+                    console.log("TODO: Navigate to previous tab");
+                    // Hint: Decrement activeTab if > 0
+                    // Hint: Wrap around to last tab if at first tab
+                },
+
+                // TODO: Implement nextTab
+                nextTab() {
+                    console.log("TODO: Navigate to next tab");
+                    // Hint: Increment activeTab if < tabs.length - 1
+                    // Hint: Wrap around to first tab if at last tab
+                }
+            };
+        }
+
+        // Part 4: Lazy Loading Tabs
+        function TODO_lazyLoadTabs() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    {
+                        label: 'Quick Start',
+                        content: null,
+                        loading: false
+                    },
+                    {
+                        label: 'Documentation',
+                        content: null,
+                        loading: false
+                    },
+                    {
+                        label: 'Examples',
+                        content: null,
+                        loading: false
+                    }
+                ],
+
+                // TODO: Implement setActiveTab with lazy loading
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab with lazy loading:", index);
+                    // Hint: Set activeTab to index
+                    // Hint: If tab.content is null, show loading and fetch content
+                    // Hint: Simulate async load (setTimeout 1-2 seconds)
+                    // Hint: Set content and hide loading
+                },
+
+                // TODO: Implement loadTabContent
+                loadTabContent(tab) {
+                    console.log("TODO: Load tab content");
+                    // Hint: Return promise that resolves after delay
+                    // Hint: In real app, fetch from API
+                }
+            };
+        }
+
+        // Part 5: Dynamic Tab Management
+        function TODO_dynamicTabs() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    { label: 'Tab 1', content: 'Content for tab 1' },
+                    { label: 'Tab 2', content: 'Content for tab 2' }
+                ],
+
+                // TODO: Implement setActiveTab
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab to index:", index);
+                    // Hint: Update activeTab to index
+                },
+
+                // TODO: Implement addTab
+                addTab() {
+                    console.log("TODO: Add new tab");
+                    // Hint: Push new tab object { label: 'Tab N', content: '...' }
+                    // Hint: Set activeTab to new tab index
+                },
+
+                // TODO: Implement removeTab
+                removeTab(index) {
+                    console.log("TODO: Remove tab at index:", index);
+                    // Hint: Remove tab at index using splice
+                    // Hint: Adjust activeTab if necessary
+                }
+            };
+        }
+
+        // Part 6: Persistent Tabs
+        function TODO_persistentTabs() {
+            return {
+                activeTab: 0,
+                tabs: [
+                    { label: 'First', content: 'First tab content' },
+                    { label: 'Second', content: 'Second tab content' },
+                    { label: 'Third', content: 'Third tab content' }
+                ],
+
+                // TODO: Implement loadState
+                loadState() {
+                    console.log("TODO: Load active tab from localStorage");
+                    // Hint: Get 'activeTab' from localStorage
+                    // Hint: Parse as integer
+                    // Hint: Set activeTab, or use 0 if not found
+                },
+
+                // TODO: Implement setActiveTab with persistence
+                setActiveTab(index) {
+                    console.log("TODO: Set active tab and save to localStorage:", index);
+                    // Hint: Update activeTab to index
+                    // Hint: Save to localStorage['activeTab']
+                }
+            };
+        }
+
+        // Initialize persistent tabs on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[x-data*="TODO_persistentTabs"]').forEach(el => {
+                if (el.__x) {
+                    el.__x.$data.loadState();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

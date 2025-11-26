@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02 - Todo List with Alpine.js</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            font-size: 0.9em;
+            background: #f5f5f5;
+            color: #333;
+            border: 2px solid transparent;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .stats {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .todo-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .todo-item {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .todo-item:hover {
+            background: #efefef;
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .todo-text {
+            flex: 1;
+            color: #333;
+            word-break: break-word;
+        }
+
+        .todo-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .todo-actions button {
+            padding: 6px 12px;
+            font-size: 0.85em;
+            background: #dc3545;
+            min-width: auto;
+            margin: 0;
+        }
+
+        .todo-actions button.edit {
+            background: #17a2b8;
+        }
+
+        .edit-btn:hover {
+            background: #138496;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List with Alpine.js</h1>
+
+        <div class="info-box">
+            <strong>TODO:</strong> Create a todo list with add, edit, delete, and filter functionality using Alpine.js
+        </div>
+
+        <div x-data="TODO_todoApp()" @load="initializeApp()">
+            <!-- Input Section -->
+            <div class="input-section">
+                <input
+                    type="text"
+                    x-model="newTodo"
+                    @keydown.enter="addTodo()"
+                    placeholder="What needs to be done?"
+                    autofocus
+                >
+                <button @click="addTodo()" :disabled="!newTodo.trim()">Add Todo</button>
+            </div>
+
+            <!-- Search Box -->
+            <input
+                type="text"
+                class="search-box"
+                x-model="searchQuery"
+                placeholder="Search todos..."
+            >
+
+            <!-- Filter Controls -->
+            <div class="controls">
+                <button
+                    class="filter-btn"
+                    :class="{ active: filter === 'all' }"
+                    @click="setFilter('all')"
+                >
+                    All
+                </button>
+                <button
+                    class="filter-btn"
+                    :class="{ active: filter === 'active' }"
+                    @click="setFilter('active')"
+                >
+                    Active
+                </button>
+                <button
+                    class="filter-btn"
+                    :class="{ active: filter === 'completed' }"
+                    @click="setFilter('completed')"
+                >
+                    Completed
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <span x-text="getActiveTodos().length"></span> active,
+                <span x-text="todos.length"></span> total
+            </div>
+
+            <!-- Todo List -->
+            <ul class="todo-list">
+                <template x-for="todo in getFilteredTodos()" :key="todo.id">
+                    <li class="todo-item" :class="{ completed: todo.completed }">
+                        <input
+                            type="checkbox"
+                            :checked="todo.completed"
+                            @change="toggleTodo(todo.id)"
+                        >
+                        <span class="todo-text" x-text="todo.text"></span>
+                        <div class="todo-actions">
+                            <button class="edit" @click="startEdit(todo)">Edit</button>
+                            <button @click="deleteTodo(todo.id)">Delete</button>
+                        </div>
+                    </li>
+                </template>
+            </ul>
+
+            <!-- Empty State -->
+            <div class="empty-state" x-show="getFilteredTodos().length === 0">
+                <p>No todos to show. Add one to get started!</p>
+            </div>
+
+            <!-- Clear Completed Section -->
+            <div style="text-align: center; padding-top: 20px; border-top: 2px solid #eee;" x-show="getCompletedTodos().length > 0">
+                <button style="background: #ffc107; color: #333;" @click="clearCompleted()">
+                    Clear Completed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" :class="{ active: showEditModal }">
+        <div class="modal-content" @click.outside="closeEdit()">
+            <h2>Edit Todo</h2>
+            <input type="text" x-model="editText" @keydown.enter="saveEdit()" placeholder="Todo text...">
+            <div class="modal-actions">
+                <button style="background: #6c757d;" @click="closeEdit()">Cancel</button>
+                <button style="background: #667eea;" @click="saveEdit()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function TODO_todoApp() {
+            return {
+                todos: [],
+                newTodo: '',
+                filter: 'all',
+                searchQuery: '',
+                editingId: null,
+                editText: '',
+                showEditModal: false,
+
+                // TODO: Initialize app from localStorage
+                initializeApp() {
+                    console.log("TODO: Load todos from localStorage");
+                    // Hint: Get 'todos' from localStorage
+                    // Hint: Parse JSON and set todos array
+                    // Hint: If empty, initialize with empty array
+                },
+
+                // TODO: Implement addTodo
+                addTodo() {
+                    console.log("TODO: Add new todo");
+                    // Hint: Check if newTodo is not empty
+                    // Hint: Create todo object with: id (Date.now()), text, completed (false)
+                    // Hint: Add to todos array
+                    // Hint: Clear newTodo input
+                    // Hint: Save to localStorage
+                },
+
+                // TODO: Implement toggleTodo
+                toggleTodo(id) {
+                    console.log("TODO: Toggle todo completed status");
+                    // Hint: Find todo by id
+                    // Hint: Toggle completed property
+                    // Hint: Save to localStorage
+                },
+
+                // TODO: Implement deleteTodo
+                deleteTodo(id) {
+                    console.log("TODO: Delete todo");
+                    // Hint: Filter out todo with matching id
+                    // Hint: Save to localStorage
+                },
+
+                // TODO: Implement startEdit
+                startEdit(todo) {
+                    console.log("TODO: Start editing todo");
+                    // Hint: Set editingId to todo.id
+                    // Hint: Set editText to todo.text
+                    // Hint: Show modal
+                },
+
+                // TODO: Implement saveEdit
+                saveEdit() {
+                    console.log("TODO: Save edited todo");
+                    // Hint: Find todo by editingId
+                    // Hint: Update text if editText is not empty
+                    // Hint: Close modal
+                    // Hint: Save to localStorage
+                },
+
+                // TODO: Implement closeEdit
+                closeEdit() {
+                    console.log("TODO: Close edit modal");
+                    // Hint: Hide modal
+                    // Hint: Clear editingId and editText
+                },
+
+                // TODO: Implement setFilter
+                setFilter(newFilter) {
+                    console.log("TODO: Set filter:", newFilter);
+                    // Hint: Update filter property
+                },
+
+                // TODO: Implement getActiveTodos
+                getActiveTodos() {
+                    console.log("TODO: Get active todos");
+                    // Hint: Return todos where completed === false
+                },
+
+                // TODO: Implement getCompletedTodos
+                getCompletedTodos() {
+                    console.log("TODO: Get completed todos");
+                    // Hint: Return todos where completed === true
+                },
+
+                // TODO: Implement getFilteredTodos
+                getFilteredTodos() {
+                    console.log("TODO: Get filtered and searched todos");
+                    // Hint: Start with all todos
+                    // Hint: Filter by current filter (all/active/completed)
+                    // Hint: Filter by search query (case-insensitive text match)
+                    // Hint: Return filtered array
+                },
+
+                // TODO: Implement clearCompleted
+                clearCompleted() {
+                    console.log("TODO: Clear completed todos");
+                    // Hint: Filter out all completed todos
+                    // Hint: Save to localStorage
+                },
+
+                // TODO: Implement saveTodos (helper)
+                saveTodos() {
+                    console.log("TODO: Save todos to localStorage");
+                    // Hint: Convert todos array to JSON
+                    // Hint: Save to localStorage['todos']
+                }
+            };
+        }
+    </script>
+</body>
+</html>

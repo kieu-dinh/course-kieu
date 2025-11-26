@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 02 - Event Handling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .task {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        button, input[type="submit"] {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s ease;
+        }
+
+        button:hover, input[type="submit"]:hover {
+            background: #764ba2;
+        }
+
+        button:active, input[type="submit"]:active {
+            transform: scale(0.98);
+        }
+
+        input, textarea, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            margin: 10px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .output {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            min-height: 40px;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .info {
+            color: #17a2b8;
+        }
+
+        .event-log {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .log-entry {
+            padding: 5px;
+            margin: 2px 0;
+            background: white;
+            border-left: 3px solid #667eea;
+            padding-left: 8px;
+        }
+
+        .clickable-box {
+            background: #f0f0f0;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .clickable-box:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .active {
+            background: #667eea;
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .counter-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dynamic-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .dynamic-list li {
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            margin: 5px 0;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dynamic-list button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Event Handling Exercise</h1>
+
+        <!-- Section 1: Click Events -->
+        <div class="section">
+            <h2>Part 1: Click Events</h2>
+
+            <div class="task">
+                <p><strong>Task 1:</strong> Simple click handler</p>
+                <p>TODO: Add a click event listener to the button and display a message</p>
+                <button onclick="TODO_simpleClick()">Click Me</button>
+                <div class="output" id="result-1"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 2:</strong> Click counter</p>
+                <p>TODO: Count the number of times the button is clicked and display the count</p>
+                <div class="counter-display" id="counter">0</div>
+                <button id="count-btn">Click to Count</button>
+                <div class="output" id="result-2"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 3:</strong> Toggle element visibility</p>
+                <p>TODO: Toggle the visibility of the box when clicked using event listeners</p>
+                <button id="toggle-btn">Toggle Visibility</button>
+                <div class="clickable-box" id="toggle-box">I am visible!</div>
+                <div class="output" id="result-3"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 4:</strong> Event delegation</p>
+                <p>TODO: Add click handlers to multiple items using event delegation</p>
+                <ul class="dynamic-list" id="delegated-list">
+                    <li>Item 1 <button class="delete-btn">Delete</button></li>
+                    <li>Item 2 <button class="delete-btn">Delete</button></li>
+                    <li>Item 3 <button class="delete-btn">Delete</button></li>
+                </ul>
+                <div class="output" id="result-4"></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Form Events -->
+        <div class="section">
+            <h2>Part 2: Form Events</h2>
+
+            <div class="task">
+                <p><strong>Task 5:</strong> Form submission</p>
+                <p>TODO: Handle form submission, get form data, and prevent default behavior</p>
+                <form id="test-form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" rows="3"></textarea>
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+                <div class="output" id="result-5"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 6:</strong> Input change events</p>
+                <p>TODO: Track changes to input fields and display live feedback</p>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Type something...">
+                </div>
+                <div class="output" id="result-6"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 7:</strong> Select dropdown changes</p>
+                <p>TODO: Handle select changes and display the selected value</p>
+                <div class="form-group">
+                    <label for="color-select">Choose a color:</label>
+                    <select id="color-select">
+                        <option value="">-- Select --</option>
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                    </select>
+                </div>
+                <div class="output" id="result-7"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 8:</strong> Form reset</p>
+                <p>TODO: Handle form reset and display confirmation</p>
+                <form id="reset-form">
+                    <div class="form-group">
+                        <label for="field1">Field 1:</label>
+                        <input type="text" id="field1" name="field1">
+                    </div>
+                    <div class="form-group">
+                        <label for="field2">Field 2:</label>
+                        <input type="text" id="field2" name="field2">
+                    </div>
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </form>
+                <div class="output" id="result-8"></div>
+            </div>
+        </div>
+
+        <!-- Section 3: Other Events -->
+        <div class="section">
+            <h2>Part 3: Mouse and Keyboard Events</h2>
+
+            <div class="task">
+                <p><strong>Task 9:</strong> Mouse hover events</p>
+                <p>TODO: Change box style on mouseover and mouseout</p>
+                <div id="hover-box" class="clickable-box">Hover over me</div>
+                <div class="output" id="result-9"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 10:</strong> Keyboard events</p>
+                <p>TODO: Listen for keydown and display the pressed key</p>
+                <input type="text" id="keyboard-input" placeholder="Press any key...">
+                <div class="event-log" id="keyboard-log"></div>
+                <div class="output" id="result-10"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 11:</strong> Event preventDefault</p>
+                <p>TODO: Prevent form submission if validation fails</p>
+                <form id="validate-form">
+                    <div class="form-group">
+                        <label for="phone">Phone (format: XXX-XXX-XXXX):</label>
+                        <input type="text" id="phone" name="phone" placeholder="123-456-7890">
+                    </div>
+                    <input type="submit" value="Submit">
+                </form>
+                <div class="output" id="result-11"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 12:</strong> Mouse position tracking</p>
+                <p>TODO: Track mouse position within a box and display coordinates</p>
+                <div id="mouse-box" class="clickable-box" style="height: 100px;">
+                    Move your mouse here (0, 0)
+                </div>
+                <div class="output" id="result-12"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Part 1: Click Events
+        // TODO: Implement simpleClick function
+        function TODO_simpleClick() {
+            console.log("TODO: Handle simple click event");
+            // Hint: Display message in #result-1
+        }
+
+        // TODO: Add click event listener to #count-btn
+        // TODO: Implement counter functionality
+
+        // TODO: Add click event listener to #toggle-btn
+        // TODO: Toggle visibility of #toggle-box
+
+        // TODO: Add event delegation to #delegated-list
+        // TODO: Handle delete button clicks
+
+        // Part 2: Form Events
+        // TODO: Add submit event handler to #test-form
+        function TODO_formSubmit(event) {
+            console.log("TODO: Handle form submission");
+            // Hint: Use event.preventDefault()
+            // Hint: Get form data using form.name.value or FormData
+            // Hint: Display form data in #result-5
+        }
+
+        // TODO: Add input event listener to #username
+        // TODO: Display character count in #result-6
+
+        // TODO: Add change event listener to #color-select
+        // TODO: Display selected color in #result-7
+
+        // TODO: Add reset event listener to #reset-form
+        // TODO: Display reset confirmation in #result-8
+
+        // Part 3: Mouse and Keyboard Events
+        // TODO: Add mouseover and mouseout listeners to #hover-box
+        // TODO: Change styles on hover
+
+        // TODO: Add keydown event listener to #keyboard-input
+        // TODO: Display pressed keys in #keyboard-log
+        // TODO: Limit log entries to last 10 items
+
+        // TODO: Add submit listener to #validate-form
+        // TODO: Validate phone format before allowing submission
+
+        // TODO: Add mousemove listener to #mouse-box
+        // TODO: Display mouse coordinates in #result-12
+
+        // Helper function to add log entry
+        function addLogEntry(logId, text) {
+            const log = document.getElementById(logId);
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = text;
+            log.appendChild(entry);
+            // Keep only last 10 entries
+            if (log.children.length > 10) {
+                log.removeChild(log.firstChild);
+            }
+        }
+    </script>
+</body>
+</html>

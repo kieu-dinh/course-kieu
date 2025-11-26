@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 04 - Fetch API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .task {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .output {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            min-height: 50px;
+            border: 1px solid #ddd;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .data-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .data-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .data-item h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .data-item p {
+            color: #666;
+            margin: 5px 0;
+            word-break: break-word;
+        }
+
+        .data-item small {
+            color: #999;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            margin: 10px 5px 10px 0;
+            font-family: inherit;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            resize: vertical;
+            min-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fetch API Exercise</h1>
+
+        <!-- Section 1: Basic Fetching -->
+        <div class="section">
+            <h2>Part 1: Basic Fetching</h2>
+
+            <div class="task">
+                <p><strong>Task 1:</strong> Fetch and display users from API</p>
+                <p>TODO: Fetch user data from JSONPlaceholder and display in a list</p>
+                <button onclick="TODO_fetchUsers()">Fetch Users</button>
+                <div class="output" id="result-1"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 2:</strong> Fetch posts and display with pagination</p>
+                <p>TODO: Fetch posts, implement pagination controls</p>
+                <button onclick="TODO_fetchPosts()">Load Posts</button>
+                <div class="output" id="result-2"></div>
+                <div class="pagination" id="pagination-2"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 3:</strong> Fetch with query parameters</p>
+                <p>TODO: Fetch user by ID with input field</p>
+                <div class="form-group">
+                    <label for="user-id">User ID (1-10):</label>
+                    <input type="number" id="user-id" value="1" min="1" max="10">
+                    <button onclick="TODO_fetchUserById()">Fetch User</button>
+                </div>
+                <div class="output" id="result-3"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 4:</strong> Display loading state</p>
+                <p>TODO: Show loading spinner while fetching random users</p>
+                <button onclick="TODO_fetchRandomUsers()">Fetch Random Users</button>
+                <div class="output" id="result-4"></div>
+            </div>
+        </div>
+
+        <!-- Section 2: Error Handling -->
+        <div class="section">
+            <h2>Part 2: Error Handling</h2>
+
+            <div class="task">
+                <p><strong>Task 5:</strong> Handle API errors gracefully</p>
+                <p>TODO: Attempt to fetch invalid endpoint and handle error</p>
+                <button onclick="TODO_fetchWithError()">Trigger Error</button>
+                <div class="output" id="result-5"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 6:</strong> Handle network timeout</p>
+                <p>TODO: Implement timeout for fetch requests</p>
+                <button onclick="TODO_fetchWithTimeout()">Fetch with Timeout</button>
+                <div class="output" id="result-6"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 7:</strong> Retry failed requests</p>
+                <p>TODO: Implement retry logic for failed requests</p>
+                <button onclick="TODO_fetchWithRetry()">Fetch with Retry</button>
+                <div class="output" id="result-7"></div>
+            </div>
+        </div>
+
+        <!-- Section 3: Advanced Fetching -->
+        <div class="section">
+            <h2>Part 3: Advanced Fetching</h2>
+
+            <div class="task">
+                <p><strong>Task 8:</strong> POST request with data</p>
+                <p>TODO: Send POST request to create new post</p>
+                <div class="form-group">
+                    <label for="post-title">Title:</label>
+                    <input type="text" id="post-title" placeholder="Enter post title">
+                </div>
+                <div class="form-group">
+                    <label for="post-body">Body:</label>
+                    <textarea id="post-body" placeholder="Enter post body"></textarea>
+                </div>
+                <button onclick="TODO_postData()">Create Post</button>
+                <div class="output" id="result-8"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 9:</strong> Fetch with custom headers</p>
+                <p>TODO: Fetch data with custom headers</p>
+                <button onclick="TODO_fetchWithHeaders()">Fetch with Headers</button>
+                <div class="output" id="result-9"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 10:</strong> Cancel request with AbortController</p>
+                <p>TODO: Fetch data and implement cancel button</p>
+                <button id="abort-btn" onclick="TODO_cancelRequest()">Cancel Request</button>
+                <button onclick="TODO_fetchCancellable()">Fetch (can cancel)</button>
+                <div class="output" id="result-10"></div>
+            </div>
+        </div>
+
+        <!-- Section 4: Data Management -->
+        <div class="section">
+            <h2>Part 4: Data Management</h2>
+
+            <div class="task">
+                <p><strong>Task 11:</strong> Cache API responses</p>
+                <p>TODO: Cache responses to avoid redundant API calls</p>
+                <button onclick="TODO_fetchCached()">Fetch Cached Data</button>
+                <button onclick="TODO_clearCache()" style="background: #ffc107; color: #333;">Clear Cache</button>
+                <div class="output" id="result-11"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 12:</strong> Fetch and filter data</p>
+                <p>TODO: Fetch comments and filter by post ID</p>
+                <div class="form-group">
+                    <label for="post-filter">Post ID:</label>
+                    <input type="number" id="post-filter" value="1" min="1" max="100">
+                    <button onclick="TODO_fetchAndFilter()">Filter Comments</button>
+                </div>
+                <div class="output" id="result-12"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 13:</strong> Multiple parallel requests</p>
+                <p>TODO: Fetch multiple resources in parallel using Promise.all()</p>
+                <button onclick="TODO_fetchParallel()">Fetch Multiple Resources</button>
+                <div class="output" id="result-13"></div>
+            </div>
+
+            <div class="task">
+                <p><strong>Task 14:</strong> Sequential requests</p>
+                <p>TODO: Fetch user first, then fetch user's posts</p>
+                <div class="form-group">
+                    <label for="user-seq-id">User ID:</label>
+                    <input type="number" id="user-seq-id" value="1" min="1" max="10">
+                    <button onclick="TODO_fetchSequential()">Load User & Posts</button>
+                </div>
+                <div class="output" id="result-14"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Helper: Create loading spinner HTML
+        function getLoadingHTML() {
+            return '<div class="loading"><span class="spinner"></span>Loading...</div>';
+        }
+
+        // Helper: Create error message HTML
+        function getErrorHTML(message) {
+            return `<div class="error">Error: ${message}</div>`;
+        }
+
+        // Helper: Create success message HTML
+        function getSuccessHTML(message) {
+            return `<div class="success">${message}</div>`;
+        }
+
+        // Part 1: Basic Fetching
+        // TODO: Implement fetchUsers function
+        function TODO_fetchUsers() {
+            console.log("TODO: Fetch users from JSONPlaceholder");
+            // Hint: Fetch from https://jsonplaceholder.typicode.com/users?_limit=5
+            // Hint: Show loading state in #result-1
+            // Hint: Parse JSON and display in a list
+            // Hint: Show error if fetch fails
+        }
+
+        // TODO: Implement fetchPosts function
+        function TODO_fetchPosts() {
+            console.log("TODO: Fetch posts with pagination");
+            // Hint: Fetch from https://jsonplaceholder.typicode.com/posts?_limit=10&_page=1
+            // Hint: Implement pagination buttons
+            // Hint: Display posts in #result-2
+        }
+
+        // TODO: Implement fetchUserById function
+        function TODO_fetchUserById() {
+            console.log("TODO: Fetch user by ID");
+            // Hint: Get ID from #user-id input
+            // Hint: Fetch from https://jsonplaceholder.typicode.com/users/{id}
+            // Hint: Display user details in #result-3
+        }
+
+        // TODO: Implement fetchRandomUsers function
+        function TODO_fetchRandomUsers() {
+            console.log("TODO: Fetch random users with loading state");
+            // Hint: Show loading spinner
+            // Hint: Fetch from https://randomuser.me/api/?results=5
+            // Hint: Hide spinner when done
+            // Hint: Display users with profile images
+        }
+
+        // Part 2: Error Handling
+        // TODO: Implement fetchWithError function
+        function TODO_fetchWithError() {
+            console.log("TODO: Handle fetch error");
+            // Hint: Fetch from invalid endpoint
+            // Hint: Catch error and display user-friendly message in #result-5
+        }
+
+        // TODO: Implement fetchWithTimeout function
+        function TODO_fetchWithTimeout() {
+            console.log("TODO: Implement fetch timeout");
+            // Hint: Use AbortController with timeout
+            // Hint: setTimeout to abort after 2 seconds
+            // Hint: Catch abort error in #result-6
+        }
+
+        // TODO: Implement fetchWithRetry function
+        function TODO_fetchWithRetry() {
+            console.log("TODO: Implement retry logic");
+            // Hint: Create retry function that retries failed requests
+            // Hint: Retry up to 3 times
+            // Hint: Display attempts in #result-7
+        }
+
+        // Part 3: Advanced Fetching
+        // TODO: Implement postData function
+        function TODO_postData() {
+            console.log("TODO: Send POST request");
+            // Hint: Get title from #post-title
+            // Hint: Get body from #post-body
+            // Hint: Fetch with method: 'POST', headers, and body
+            // Hint: Display response in #result-8
+        }
+
+        // TODO: Implement fetchWithHeaders function
+        function TODO_fetchWithHeaders() {
+            console.log("TODO: Fetch with custom headers");
+            // Hint: Add custom headers to fetch request
+            // Hint: Display response in #result-9
+        }
+
+        // TODO: Implement fetchCancellable and cancelRequest functions
+        let abortController;
+        function TODO_fetchCancellable() {
+            console.log("TODO: Fetch with AbortController");
+            // Hint: Create new AbortController
+            // Hint: Pass signal to fetch
+            // Hint: Handle abort error
+        }
+
+        function TODO_cancelRequest() {
+            console.log("TODO: Cancel fetch request");
+            // Hint: Call abortController.abort()
+        }
+
+        // Part 4: Data Management
+        let cache = {};
+
+        // TODO: Implement fetchCached function
+        function TODO_fetchCached() {
+            console.log("TODO: Implement caching");
+            // Hint: Check if data exists in cache
+            // Hint: If cached, display from cache immediately
+            // Hint: If not, fetch and store in cache
+            // Hint: Display cache info in #result-11
+        }
+
+        // TODO: Implement clearCache function
+        function TODO_clearCache() {
+            console.log("TODO: Clear cache");
+            // Hint: Empty the cache object
+            // Hint: Show success message
+        }
+
+        // TODO: Implement fetchAndFilter function
+        function TODO_fetchAndFilter() {
+            console.log("TODO: Fetch and filter comments");
+            // Hint: Get post ID from #post-filter
+            // Hint: Fetch comments from /comments?postId={id}
+            // Hint: Display filtered comments in #result-12
+        }
+
+        // TODO: Implement fetchParallel function
+        function TODO_fetchParallel() {
+            console.log("TODO: Fetch multiple resources in parallel");
+            // Hint: Use Promise.all() with multiple fetches
+            // Hint: Fetch users, posts, comments
+            // Hint: Display count of each in #result-13
+        }
+
+        // TODO: Implement fetchSequential function
+        function TODO_fetchSequential() {
+            console.log("TODO: Fetch user then their posts");
+            // Hint: Get user ID from #user-seq-id
+            // Hint: First fetch user
+            // Hint: Then fetch posts for that user ID
+            // Hint: Display both in #result-14
+        }
+    </script>
+</body>
+</html>

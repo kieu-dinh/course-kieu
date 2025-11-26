@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 01 - Counter with Alpine.js</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .counter-display {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #764ba2;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .controls {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .control-group {
+            margin: 15px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .history-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .history-item {
+            padding: 8px;
+            background: white;
+            margin: 5px 0;
+            border-radius: 3px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
+            font-size: 0.9em;
+        }
+
+        .multiple-counters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .counter-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        .counter-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .counter-card .counter-display {
+            font-size: 2.5em;
+            margin: 20px 0;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-left: 10px;
+        }
+
+        .badge.danger {
+            background: #dc3545;
+        }
+
+        .badge.success {
+            background: #28a745;
+        }
+
+        .badge.warning {
+            background: #ffc107;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Counter Application with Alpine.js</h1>
+
+        <!-- Part 1: Simple Counter -->
+        <div class="card">
+            <h2>Part 1: Simple Counter</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create a simple counter with increment, decrement, and reset buttons using Alpine.js
+            </div>
+
+            <div x-data="TODO_simpleCounter()">
+                <div class="counter-display" x-text="count"></div>
+
+                <div class="button-group">
+                    <button class="btn-danger" @click="decrement()">- Decrease</button>
+                    <button class="btn-warning" @click="reset()">Reset</button>
+                    <button class="btn-success" @click="increment()">+ Increase</button>
+                </div>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Step Size:</label>
+                        <input type="number" x-model.number="step" min="1" value="1">
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Current Count</div>
+                        <div class="stat-value" x-text="count"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Step Size</div>
+                        <div class="stat-value" x-text="step"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 2: Counter with Limits -->
+        <div class="card">
+            <h2>Part 2: Counter with Min/Max Limits</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Add min and max constraints to the counter and disable buttons when limits are reached
+            </div>
+
+            <div x-data="TODO_limitedCounter()">
+                <div class="counter-display" x-text="count"></div>
+
+                <div class="button-group">
+                    <button class="btn-danger" @click="decrement()" :disabled="count <= min">- Decrease</button>
+                    <button class="btn-warning" @click="reset()">Reset</button>
+                    <button class="btn-success" @click="increment()" :disabled="count >= max">+ Increase</button>
+                </div>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Minimum Value:</label>
+                        <input type="number" x-model.number="min" value="0">
+                    </div>
+                    <div class="control-group">
+                        <label>Maximum Value:</label>
+                        <input type="number" x-model.number="max" value="100">
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Current Count</div>
+                        <div class="stat-value" x-text="count"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Min</div>
+                        <div class="stat-value" x-text="min"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Max</div>
+                        <div class="stat-value" x-text="max"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Progress</div>
+                        <div class="stat-value" x-text="percentage() + '%'"></div>
+                    </div>
+                </div>
+
+                <div class="error-message" :class="{ show: count <= min }" style="margin-top: 15px;">
+                    Minimum limit reached!
+                </div>
+                <div class="error-message danger" :class="{ show: count >= max }" style="background: #f8d7da; display: none;" style="margin-top: 15px;">
+                    Maximum limit reached!
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 3: Counter with History -->
+        <div class="card">
+            <h2>Part 3: Counter with History</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Track counter changes in history and allow clearing it
+            </div>
+
+            <div x-data="TODO_counterWithHistory()">
+                <div class="counter-display" x-text="count"></div>
+
+                <div class="button-group">
+                    <button class="btn-danger" @click="decrement()">- Decrease</button>
+                    <button class="btn-warning" @click="reset()">Reset</button>
+                    <button class="btn-success" @click="increment()">+ Increase</button>
+                    <button class="btn-secondary" @click="clearHistory()">Clear History</button>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="color: #333; margin-bottom: 10px;">Change History</h3>
+                    <ul class="history-list">
+                        <template x-for="(entry, index) in history" :key="index">
+                            <li class="history-item" x-text="entry"></li>
+                        </template>
+                    </ul>
+                    <div style="text-align: center; color: #666; margin-top: 10px;" x-show="history.length === 0">
+                        No history yet. Make some changes!
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Current Count</div>
+                        <div class="stat-value" x-text="count"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Changes Made</div>
+                        <div class="stat-value" x-text="history.length"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 4: Counter with localStorage -->
+        <div class="card">
+            <h2>Part 4: Persistent Counter (localStorage)</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Save counter state to localStorage and restore it on page load
+            </div>
+
+            <div x-data="TODO_persistentCounter()" @load="restore()">
+                <div class="counter-display" x-text="count"></div>
+
+                <div class="button-group">
+                    <button class="btn-danger" @click="decrement()">- Decrease</button>
+                    <button class="btn-warning" @click="reset()">Reset</button>
+                    <button class="btn-success" @click="increment()">+ Increase</button>
+                </div>
+
+                <div class="success-message" :class="{ show: saved }" style="margin-top: 15px;">
+                    Count saved to localStorage!
+                </div>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Current Count</div>
+                        <div class="stat-value" x-text="count"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 5: Multiple Independent Counters -->
+        <div class="card">
+            <h2>Part 5: Multiple Independent Counters</h2>
+
+            <div class="info-box">
+                <strong>TODO:</strong> Create multiple independent counter instances using x-for
+            </div>
+
+            <div x-data="TODO_multipleCounters()">
+                <div class="button-group" style="margin-bottom: 20px;">
+                    <button class="btn-primary" @click="addCounter()">+ Add Counter</button>
+                </div>
+
+                <div class="multiple-counters">
+                    <template x-for="(counter, index) in counters" :key="index">
+                        <div class="counter-card">
+                            <h3 x-text="'Counter ' + (index + 1)"></h3>
+                            <div class="counter-display" x-text="counter.value"></div>
+                            <div class="button-group">
+                                <button class="btn-danger" @click="decrementCounter(index)">-</button>
+                                <button class="btn-warning" @click="resetCounter(index)">Reset</button>
+                                <button class="btn-success" @click="incrementCounter(index)">+</button>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn-secondary" style="flex: 1;" @click="removeCounter(index)">Remove</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="stats" style="margin-top: 20px;">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Counters</div>
+                        <div class="stat-value" x-text="counters.length"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Sum of All Counters</div>
+                        <div class="stat-value" x-text="getTotalSum()"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Part 1: Simple Counter
+        function TODO_simpleCounter() {
+            return {
+                count: 0,
+                step: 1,
+
+                // TODO: Implement increment method
+                increment() {
+                    console.log("TODO: Increment counter by step");
+                    // Hint: Add step to count
+                },
+
+                // TODO: Implement decrement method
+                decrement() {
+                    console.log("TODO: Decrement counter by step");
+                    // Hint: Subtract step from count
+                },
+
+                // TODO: Implement reset method
+                reset() {
+                    console.log("TODO: Reset counter to 0");
+                    // Hint: Set count to 0
+                }
+            };
+        }
+
+        // Part 2: Counter with Limits
+        function TODO_limitedCounter() {
+            return {
+                count: 50,
+                min: 0,
+                max: 100,
+
+                // TODO: Implement increment with limit check
+                increment() {
+                    console.log("TODO: Increment with max limit check");
+                    // Hint: Only increment if count < max
+                },
+
+                // TODO: Implement decrement with limit check
+                decrement() {
+                    console.log("TODO: Decrement with min limit check");
+                    // Hint: Only decrement if count > min
+                },
+
+                // TODO: Implement reset
+                reset() {
+                    console.log("TODO: Reset to initial value");
+                    // Hint: Set count to min value
+                },
+
+                // TODO: Implement percentage calculation
+                percentage() {
+                    console.log("TODO: Calculate percentage between min and max");
+                    // Hint: Return (count - min) / (max - min) * 100
+                    // Hint: Round to nearest integer
+                }
+            };
+        }
+
+        // Part 3: Counter with History
+        function TODO_counterWithHistory() {
+            return {
+                count: 0,
+                history: [],
+
+                // TODO: Implement increment with history
+                increment() {
+                    console.log("TODO: Increment and add to history");
+                    // Hint: Increment count
+                    // Hint: Add entry to history like "Incremented to X"
+                },
+
+                // TODO: Implement decrement with history
+                decrement() {
+                    console.log("TODO: Decrement and add to history");
+                    // Hint: Decrement count
+                    // Hint: Add entry to history
+                },
+
+                // TODO: Implement reset with history
+                reset() {
+                    console.log("TODO: Reset and add to history");
+                    // Hint: Set count to 0
+                    // Hint: Add entry to history
+                },
+
+                // TODO: Implement clearHistory
+                clearHistory() {
+                    console.log("TODO: Clear history");
+                    // Hint: Empty history array
+                }
+            };
+        }
+
+        // Part 4: Counter with localStorage
+        function TODO_persistentCounter() {
+            return {
+                count: 0,
+                saved: false,
+
+                // TODO: Implement restore from localStorage
+                restore() {
+                    console.log("TODO: Restore count from localStorage");
+                    // Hint: Get 'counter' from localStorage
+                    // Hint: Parse as integer
+                    // Hint: Set count, or use 0 if not found
+                },
+
+                // TODO: Implement increment with localStorage save
+                increment() {
+                    console.log("TODO: Increment and save to localStorage");
+                    // Hint: Increment count
+                    // Hint: Save to localStorage['counter']
+                    // Hint: Set saved = true, then false after 2 seconds
+                },
+
+                // TODO: Implement decrement with localStorage save
+                decrement() {
+                    console.log("TODO: Decrement and save to localStorage");
+                    // Hint: Decrement count
+                    // Hint: Save to localStorage['counter']
+                },
+
+                // TODO: Implement reset with localStorage clear
+                reset() {
+                    console.log("TODO: Reset and clear localStorage");
+                    // Hint: Set count to 0
+                    // Hint: Remove 'counter' from localStorage
+                }
+            };
+        }
+
+        // Part 5: Multiple Independent Counters
+        function TODO_multipleCounters() {
+            return {
+                counters: [
+                    { value: 0 },
+                    { value: 0 }
+                ],
+
+                // TODO: Implement addCounter
+                addCounter() {
+                    console.log("TODO: Add new counter to array");
+                    // Hint: Push new counter object { value: 0 }
+                },
+
+                // TODO: Implement incrementCounter
+                incrementCounter(index) {
+                    console.log("TODO: Increment counter at index:", index);
+                    // Hint: Increment counters[index].value
+                },
+
+                // TODO: Implement decrementCounter
+                decrementCounter(index) {
+                    console.log("TODO: Decrement counter at index:", index);
+                    // Hint: Decrement counters[index].value
+                },
+
+                // TODO: Implement resetCounter
+                resetCounter(index) {
+                    console.log("TODO: Reset counter at index:", index);
+                    // Hint: Set counters[index].value to 0
+                },
+
+                // TODO: Implement removeCounter
+                removeCounter(index) {
+                    console.log("TODO: Remove counter at index:", index);
+                    // Hint: Use splice to remove element at index
+                },
+
+                // TODO: Implement getTotalSum
+                getTotalSum() {
+                    console.log("TODO: Calculate sum of all counters");
+                    // Hint: Use reduce() to sum all counter values
+                    // Hint: Return total sum
+                }
+            };
+        }
+
+        // Initialize persistent counter on load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('[x-data*="TODO_persistentCounter"]').forEach(el => {
+                if (el.__x) {
+                    el.__x.$data.restore();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

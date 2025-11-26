@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 05 - Form Validation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input.invalid, textarea.invalid {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        input.valid, textarea.valid {
+            border-color: #28a745;
+            background: #f5fff5;
+        }
+
+        .form-hint {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .form-error {
+            font-size: 0.9em;
+            color: #dc3545;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-success {
+            font-size: 0.9em;
+            color: #28a745;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .strength-meter {
+            height: 5px;
+            background: #ddd;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background-color 0.3s ease;
+            background: #dc3545;
+        }
+
+        .strength-bar.weak {
+            width: 33%;
+            background: #dc3545;
+        }
+
+        .strength-bar.medium {
+            width: 66%;
+            background: #ffc107;
+        }
+
+        .strength-bar.strong {
+            width: 100%;
+            background: #28a745;
+        }
+
+        .strength-text {
+            font-size: 0.85em;
+            margin-top: 5px;
+            color: #666;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .error-summary {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-summary.show {
+            display: block;
+        }
+
+        .error-list {
+            list-style-position: inside;
+            margin-top: 10px;
+        }
+
+        .error-list li {
+            margin: 5px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            width: auto;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-separator {
+            height: 1px;
+            background: #ddd;
+            margin: 25px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Form Validation Exercise</h1>
+
+        <!-- Section 1: Basic Validation -->
+        <div class="form-section">
+            <h2>Part 1: Basic Field Validation</h2>
+
+            <div class="info-box">
+                <strong>Instructions:</strong> Add real-time validation feedback to each field. Show error messages when validation fails.
+            </div>
+
+            <form id="basic-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="3-20 characters, letters and numbers">
+                    <div class="form-hint">Must be 3-20 characters, letters and numbers only</div>
+                    <div class="form-error" id="username-error"></div>
+                    <div class="form-success" id="username-success">✓ Valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="user@example.com">
+                    <div class="form-hint">Must be a valid email address</div>
+                    <div class="form-error" id="email-error"></div>
+                    <div class="form-success" id="email-success">✓ Valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" placeholder="18-100">
+                    <div class="form-hint">Must be between 18 and 100</div>
+                    <div class="form-error" id="age-error"></div>
+                    <div class="form-success" id="age-success">✓ Valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" name="phone" placeholder="123-456-7890">
+                    <div class="form-hint">Format: XXX-XXX-XXXX</div>
+                    <div class="form-error" id="phone-error"></div>
+                    <div class="form-success" id="phone-success">✓ Valid</div>
+                </div>
+
+                <button type="submit" id="basic-submit" disabled>Submit Basic Form</button>
+            </form>
+        </div>
+
+        <!-- Section 2: Password Validation -->
+        <div class="form-section">
+            <h2>Part 2: Password Validation</h2>
+
+            <div class="info-box">
+                <strong>Instructions:</strong> Implement password strength meter and confirmation validation.
+            </div>
+
+            <form id="password-form">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Min 8 chars: 1 uppercase, 1 number, 1 special">
+                    <div class="form-hint">
+                        Requirements:
+                        <ul style="list-style-position: inside; margin-top: 5px;">
+                            <li>At least 8 characters</li>
+                            <li>At least 1 uppercase letter</li>
+                            <li>At least 1 number</li>
+                            <li>At least 1 special character (!@#$%^&*)</li>
+                        </ul>
+                    </div>
+                    <div class="strength-meter"><div class="strength-bar" id="password-strength"></div></div>
+                    <div class="strength-text" id="strength-text"></div>
+                    <div class="form-error" id="password-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password">
+                    <div class="form-error" id="confirm-error"></div>
+                    <div class="form-success" id="confirm-success">✓ Matches</div>
+                </div>
+
+                <button type="submit" id="password-submit" disabled>Submit Password Form</button>
+            </form>
+        </div>
+
+        <!-- Section 3: Complex Validation -->
+        <div class="form-section">
+            <h2>Part 3: Complex Validation</h2>
+
+            <div class="info-box">
+                <strong>Instructions:</strong> Validate multiple fields with interdependencies and custom rules.
+            </div>
+
+            <form id="complex-form">
+                <div class="form-group">
+                    <label for="website">Website URL</label>
+                    <input type="text" id="website" name="website" placeholder="https://example.com">
+                    <div class="form-hint">Must be a valid URL</div>
+                    <div class="form-error" id="website-error"></div>
+                    <div class="form-success" id="website-success">✓ Valid</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" placeholder="Tell us about yourself (10-500 characters)"></textarea>
+                    <div class="form-hint">10-500 characters</div>
+                    <div class="form-error" id="bio-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Language</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="lang-en" name="language" value="en" checked>
+                            <label for="lang-en">English</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="lang-fr" name="language" value="fr">
+                            <label for="lang-fr">Français</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="lang-es" name="language" value="es">
+                            <label for="lang-es">Español</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter">Subscribe to newsletter</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the terms and conditions</label>
+                    </div>
+                    <div class="form-error" id="terms-error"></div>
+                </div>
+
+                <button type="submit" id="complex-submit" disabled>Submit Complex Form</button>
+            </form>
+        </div>
+
+        <!-- Section 4: Full Registration Form -->
+        <div class="form-section">
+            <h2>Part 4: Complete Registration Form</h2>
+
+            <div class="info-box">
+                <strong>Instructions:</strong> Validate a complete registration form and show all errors before submission.
+            </div>
+
+            <div id="success-message" class="success-message">
+                <h3>Success!</h3>
+                <p id="success-text"></p>
+            </div>
+
+            <div id="error-summary" class="error-summary">
+                <h3>Please fix the following errors:</h3>
+                <ul class="error-list" id="error-list"></ul>
+            </div>
+
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="reg-username">Username</label>
+                    <input type="text" id="reg-username" name="reg-username" required>
+                    <div class="form-error" id="reg-username-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" name="reg-email" required>
+                    <div class="form-error" id="reg-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input type="password" id="reg-password" name="reg-password" required>
+                    <div class="form-error" id="reg-password-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-confirm">Confirm Password</label>
+                    <input type="password" id="reg-confirm" name="reg-confirm" required>
+                    <div class="form-error" id="reg-confirm-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-age">Age</label>
+                    <input type="number" id="reg-age" name="reg-age" required>
+                    <div class="form-error" id="reg-age-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="reg-terms" name="reg-terms" required>
+                        <label for="reg-terms">I agree to the terms and conditions</label>
+                    </div>
+                    <div class="form-error" id="reg-terms-error"></div>
+                </div>
+
+                <button type="submit" id="registration-submit">Register</button>
+                <button type="reset" style="background: #6c757d;">Clear Form</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Validation Rules
+        const validationRules = {
+            username: {
+                pattern: /^[a-zA-Z0-9_]{3,20}$/,
+                message: 'Username must be 3-20 characters, letters and numbers only'
+            },
+            email: {
+                pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: 'Please enter a valid email address'
+            },
+            age: {
+                custom: (value) => {
+                    const num = parseInt(value);
+                    return !isNaN(num) && num >= 18 && num <= 100;
+                },
+                message: 'Age must be between 18 and 100'
+            },
+            phone: {
+                pattern: /^\d{3}-\d{3}-\d{4}$/,
+                message: 'Phone must be in format: XXX-XXX-XXXX'
+            },
+            password: {
+                custom: (value) => {
+                    return value.length >= 8 &&
+                           /[A-Z]/.test(value) &&
+                           /\d/.test(value) &&
+                           /[!@#$%^&*]/.test(value);
+                },
+                message: 'Password must have 8+ chars, 1 uppercase, 1 number, 1 special char'
+            },
+            website: {
+                pattern: /^https?:\/\/.+\..+/,
+                message: 'Please enter a valid URL (http:// or https://)'
+            },
+            bio: {
+                custom: (value) => {
+                    return value.length >= 10 && value.length <= 500;
+                },
+                message: 'Bio must be 10-500 characters'
+            }
+        };
+
+        // TODO: Implement field validation function
+        function TODO_validateField(fieldId, value) {
+            console.log("TODO: Validate field:", fieldId, "Value:", value);
+            // Hint: Check if field has a rule in validationRules
+            // Hint: If pattern exists, test with regex
+            // Hint: If custom function exists, call it
+            // Hint: Return true if valid, false if invalid
+            // Hint: Return error message if invalid
+        }
+
+        // TODO: Implement display validation result
+        function TODO_showValidation(fieldId, isValid, errorMessage = '') {
+            console.log("TODO: Show validation for field:", fieldId, "Valid:", isValid);
+            // Hint: Get input element by ID
+            // Hint: If valid: add 'valid' class, remove 'invalid', hide error, show success
+            // Hint: If invalid: add 'invalid' class, remove 'valid', show error, hide success
+            // Hint: Display error message in #fieldId-error
+        }
+
+        // TODO: Implement password strength checker
+        function TODO_checkPasswordStrength(password) {
+            console.log("TODO: Check password strength");
+            // Hint: Check length (0-8 = weak, 8-12 = medium, 12+ = strong)
+            // Hint: Check for uppercase, numbers, special chars
+            // Hint: Return strength level: 'weak', 'medium', 'strong'
+            // Hint: Update #password-strength bar class
+            // Hint: Update #strength-text with strength level
+        }
+
+        // TODO: Implement password match validation
+        function TODO_validatePasswordMatch() {
+            console.log("TODO: Validate password match");
+            // Hint: Get password and confirm-password values
+            // Hint: Check if they match
+            // Hint: Show/hide success and error messages
+            // Hint: Enable/disable submit button if all valid
+        }
+
+        // TODO: Implement form submission
+        function TODO_submitForm(formId, event) {
+            console.log("TODO: Submit form:", formId);
+            // Hint: Prevent default form submission
+            // Hint: Validate all fields
+            // Hint: If any invalid, show error summary and prevent submission
+            // Hint: If all valid, show success message
+            // Hint: Reset form
+        }
+
+        // TODO: Implement real-time validation on input
+        function TODO_setupFieldValidation(fieldId) {
+            console.log("TODO: Setup real-time validation for field:", fieldId);
+            // Hint: Get input element
+            // Hint: Add 'input' event listener
+            // Hint: On input, validate field
+            // Hint: Show validation result
+            // Hint: Update form submit button disabled state
+        }
+
+        // TODO: Check if form is valid
+        function TODO_isFormValid(formId) {
+            console.log("TODO: Check if form is valid:", formId);
+            // Hint: Get all required inputs in form
+            // Hint: Validate each field
+            // Hint: Return true if all valid, false if any invalid
+        }
+
+        // TODO: Show error summary
+        function TODO_showErrorSummary(errors) {
+            console.log("TODO: Show error summary");
+            // Hint: Clear existing error list
+            // Hint: Add each error as list item to #error-list
+            // Hint: Show #error-summary
+        }
+
+        // Event listeners - TODO to implement
+        // - Basic form fields: add input listeners for real-time validation
+        // - Password form: add listeners for strength checking and match validation
+        // - Complex form: add listeners for URL and bio validation
+        // - All forms: add submit listeners
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("TODO: Setup all form validation listeners");
+            // TODO: Call TODO_setupFieldValidation for each field in all forms
+        });
+    </script>
+</body>
+</html>
