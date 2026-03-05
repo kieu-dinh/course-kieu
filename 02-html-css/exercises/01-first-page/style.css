@@ -1,0 +1,42 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color:lightyellow;
+    font-family: system-ui, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align:center;
+     }
+h1 {
+    color:blue;
+    text-align:center;
+    }
+h2 {
+    color:darkgreen;
+    }
+p {
+    color:gray;
+    }
+.intro {
+        font-size:20px;
+        font-weight: bold;
+        background-color:white;
+        padding:20px;
+        border:2px solid blue;
+        margin:20px;
+        }
+a {
+    color: blue;
+    text-decoration: none;
+    }
+a:hover {
+    color:red;
+}
+
+img {
+    border-radius: 10px;
+}

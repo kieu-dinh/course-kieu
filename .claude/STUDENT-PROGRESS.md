@@ -1,8 +1,8 @@
 # Student Progress Tracker - Kieu
 
-**Last Updated**: 2025-11-25
-**Current Phase**: Not started yet
-**Overall Progress**: 0%
+**Last Updated**: 2026-03-04
+**Current Phase**: Phase 1 - Foundations
+**Overall Progress**: 9% (2/22 modules)
 
 ---
 
@@ -10,7 +10,7 @@
 
 | Phase | Status | Progress |
 |-------|--------|----------|
-| Phase 1: Foundations | Not Started | 0/4 modules |
+| Phase 1: Foundations | In Progress | 2/4 modules |
 | Phase 2: PHP Fundamentals | Not Started | 0/3 modules |
 | Phase 3: Real-World PHP | Not Started | 0/4 modules |
 | Phase 4: JavaScript | Not Started | 0/3 modules |
@@ -21,11 +21,11 @@
 
 ## 🎯 Current Focus
 
-**Next Lesson**: Module 00 - Preparation
-**Next Exercise**: 0.1 - Environment Verification
+**Next Lesson**: Module 03 - Git & GitHub
+**Next Exercise**: 3.1 - First Repo
 
 **Recommendation for Next Session**:
-Start with Module 00 to set up the development environment. Make sure to work in `/Users/pouget/Projects/cours-kieu`.
+Start Module 03 to learn Git and GitHub. This is essential for saving your work, tracking changes, and building a portfolio!
 
 ---
 
@@ -33,34 +33,44 @@ Start with Module 00 to set up the development environment. Make sure to work in
 
 ### Phase 1: Foundations (Modules 00-03)
 
-#### ⬜ Module 00 - Preparation
-- **Status**: Not Started
-- **Lessons Completed**: 0/7
-- **Exercises Completed**: 0/1
-  - [ ] 0.1 - Environment Verification
-- **Notes**: N/A
-- **Teacher Observations**: N/A
+#### ✅ Module 00 - Preparation
+- **Status**: Completed
+- **Lessons Completed**: 7/7
+- **Exercises Completed**: 1/1
+  - [x] 0.1 - Environment Verification
+- **Notes**: PHP 8.4.15, Composer 2.9.2, VS Code with extensions, GitHub: kieu-dinh
+- **Teacher Observations**: Quick learner, follows instructions well, already had GitHub account
 
-#### ⬜ Module 01 - Web Theory
-- **Status**: Not Started
-- **Lessons Completed**: 0/X
-- **Exercises Completed**: 0/3
-  - [ ] 1.1 - Explore Network
-  - [ ] 1.2 - Analyze Website
-  - [ ] 1.3 - HTTP Detective
-- **Notes**: N/A
-- **Teacher Observations**: N/A
+#### ✅ Module 01 - Web Theory
+- **Status**: Completed
+- **Lessons Completed**: 4/4
+  - [x] Lesson 01 - Internet & Networks
+  - [x] Lesson 02 - HTTP Protocol
+  - [x] Lesson 03 - Browser & DevTools
+  - [x] Lesson 04 - Frontend vs Backend
+- **Exercises Completed**: 3/3
+  - [x] 1.1 - Explore Network
+  - [x] 1.2 - Analyze Website
+  - [x] 1.3 - HTTP Detective
+- **Notes**: Created personal summaries in `01-theorie-web/my-notes/`
+- **Teacher Observations**: Asks good "why" questions. Wanted to understand IP, DNS, server, HTTP vs HTTPS, SQL before moving on. Shows curiosity and desire for deep understanding. Observant - noticed CSS width:auto was overriding HTML attribute. Correctly guessed that 304 means "not modified" - good intuition! Prefers simpler exercises - noted for future.
 
-#### ⬜ Module 02 - HTML/CSS/Tailwind
-- **Status**: Not Started
-- **Lessons Completed**: 0/X
-- **Exercises Completed**: 0/4
-  - [ ] 2.1 - First Page
-  - [ ] 2.2 - Styled Page
-  - [ ] 2.3 - Card Component
-  - [ ] 2.4 - Landing Page
-- **Notes**: N/A
-- **Teacher Observations**: N/A
+#### ✅ Module 02 - HTML/CSS/Tailwind
+- **Status**: Completed
+- **Lessons Completed**: 6/6
+  - [x] Lesson 01 - HTML Basics
+  - [x] Lesson 02 - HTML Deep Dive
+  - [x] Lesson 03 - CSS Basics
+  - [x] Lesson 04 - CSS Layout
+  - [x] Lesson 05 - Tailwind CSS
+  - [x] Lesson 06 - Responsive Design
+- **Exercises Completed**: 4/4
+  - [x] 2.1 - First Page (9/10)
+  - [x] 2.2 - Styled Page (9/10)
+  - [x] 2.3 - Card Component (8/10)
+  - [x] 2.4 - Landing Page (8/10)
+- **Notes**: Created index.html, contact.html, table.html, layout.html, tailwind.html, about-me.html, style.css in 02-html-css/exercises/01-first-page/. Cards in 03-card-component/cards.html. Landing page in 04-landing-page/landing.html.
+- **Teacher Observations**: Building well. Understood flexbox quickly. Exercise 2.2: created separate CSS file, applied all styles. Initially put styles inside comment and used yellow on lightyellow (invisible). Fixed both after explanation. Asks for clarification when needed (font, max-width, hover) - shows honesty about not understanding. Exercise 2.3: built 3 card types (simple, product, profile) with responsive grid. Exercise 2.4: built complete 6-section landing page independently. Common mistakes: class== typo, closing tags (</h2> instead of </p>), missing closing </div>. Learns quickly from corrections. Found navbar hardest - flex justify-between is new concept. Asks good questions about spacing (py-16 vs py-20).
 
 #### ⬜ Module 03 - Git & GitHub
 - **Status**: Not Started
@@ -318,43 +328,72 @@ Start with Module 00 to set up the development environment. Make sure to work in
 
 ---
 
-*No sessions yet*
+**2025-11-26** | Module 00 - Setup | Installed Laravel Herd, verified PHP/Composer, VS Code extensions, confirmed GitHub account | Complete beginner, no prior programming experience. Goal: career change to freelance web dev. Follows instructions well, responds concisely. | Start Module 01 - Web Theory
+
+**2025-11-26** | Module 01 - Lesson 01 | Learned Internet & Networks (IP, DNS, servers, ports). Ran nslookup and ipconfig commands. Discussed HTTP vs HTTPS, intro to SQL/databases. | Asks excellent "why" questions - wanted to understand purpose before memorizing facts. Shows deep curiosity. Created summary notes for review. | Continue with Lesson 02 - HTTP Protocol
+
+**2025-12-08** | Module 01 - Lessons 02 & 03 | HTTP Protocol (methods, status codes, request/response), Browser DevTools (Network tab, Elements tab). Used DevTools to spy on google.com - saw 92 requests! Inspected HTML of Google logo. | Answers questions correctly. Noticed CSS width:auto was overriding HTML attribute - shows attention to detail. Requests summary notes before breaks. | Continue with Lesson 04 - Frontend vs Backend
+
+**2025-12-09** | Module 01 - Lesson 04 + Exercise 1.1 | Frontend vs Backend concepts, completed Explore Network exercise. Analyzed example.com (9 requests) and github.com (213 requests). Learned about filters, headers, User-Agent. | All answers correct. Correctly guessed 304 = "not modified" without being told - shows good intuition. Understands frontend/backend distinction well. | Continue with Exercise 1.2 - Analyze Website
+
+**2025-12-10** | Module 01 - Exercises 1.2 & 1.3 | Completed Analyze Website (Hacker News vs Apple comparison) and HTTP Detective (404, POST, JSON). Module 01 complete! | Understands performance trade-offs (fancy sites = slower). Found real 404 on GitHub, observed POST request, recognized JSON format. Prefers simpler, focused exercises. | Start Module 02 - HTML/CSS
+
+**2026-02-03** | Module 02 - Lesson 01 HTML Basics | Created first HTML page (index.html). Learned h1, h2, p, ul, li, a, strong tags. Understood block vs inline elements. Fixed closing tag mistakes. | First milestone: built first webpage! Common beginner mistake with closing tags - understood quickly after explanation. Asks good questions about layout (block vs inline). | Continue with Lesson 02 - HTML Deep Dive
+
+**2026-02-04** | Module 02 - Lesson 02 HTML Deep Dive (started) | Started forms - created contact.html with label, input, button. Saw form in browser. | Building forms successfully. Session cut short. | Continue Lesson 02 - add password/textarea fields, then tables and semantic HTML
+
+**2026-03-04** | Module 02 - Exercises 2.3 & 2.4 | Completed Card Component (3 card types: simple, product, profile in responsive grid) and Landing Page (6 sections: nav, hero, features, testimonials, CTA, footer). Module 02 complete! | Navbar was hardest concept - flex justify-between. Asks good questions (py-16 vs py-20, how to center button, how to get logo). Common typos: class==, </h2> instead of </p>. Fixed all issues after feedback. Used <footer> tag correctly after suggestion. | Start Module 03 - Git & GitHub
 
 ---
 
 ## 🎓 Skills Assessment
 
 ### Strengths
-- To be determined
+- Asks "why" questions - wants to understand, not just memorize
+- Fixes mistakes quickly after explanation
+- Applies patterns from previous exercises (grid, flex, hover)
+- Honest about not understanding - asks for clarification
 
 ### Areas for Improvement
-- To be determined
+- Closing tags: sometimes forgets `/` or uses wrong tag name (</h2> instead of </p>)
+- Typos in attributes (class==, viewpost, http://)
+- Needs practice with div nesting and structure
 
 ### Learning Style Observations
-- To be determined
+- Prefers simpler, focused exercises
+- Learns by doing - builds first, then asks questions
+- Requests summary notes before breaks
+- Benefits from visual examples and comparisons
 
 ---
 
 ## 💡 Teacher's Observations & Patterns
 
 ### Recurring Challenges
-- None yet
+- Closing tags (forgetting `/`, wrong tag name)
+- Attribute typos (extra `=`, misspellings)
+- Div nesting - needs to track open/close pairs
 
 ### Breakthrough Moments
-- None yet
+- First webpage in Module 02 Lesson 01
+- Understanding flexbox (justify-between for navbar)
+- Building complete landing page independently (Exercise 2.4)
 
 ### Topics That Need Review
-- None yet
+- Semantic HTML tags (`<footer>` vs `<section>`, `<nav>`, `<main>`)
+- Closing tag discipline
 
 ### Custom Recommendations
-- None yet
+- Keep exercises focused and simple
+- Always show visual diagrams of expected output
+- Give 1-2 feedback points per review (not overwhelming)
 
 ---
 
 ## 📈 Milestones
 
 - [ ] Completed Phase 1 - Foundations
-- [ ] First working HTML page
+- [x] First working HTML page
 - [ ] First Git commit
 - [ ] First PHP function
 - [ ] First PHP class
