@@ -394,7 +394,7 @@ Start Module 03 to learn Git and GitHub. This is essential for saving your work,
 
 - [ ] Completed Phase 1 - Foundations
 - [x] First working HTML page
-- [ ] First Git commit
+- [x] First Git commit
 - [ ] First PHP function
 - [ ] First PHP class
 - [ ] First database connection
